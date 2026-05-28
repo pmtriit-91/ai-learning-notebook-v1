@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ColorModeProvider } from './theme/theme';
+import { ColorModeProvider } from './theme/ColorModeContext';
 import './index.css';
 import App from './App.tsx';
 

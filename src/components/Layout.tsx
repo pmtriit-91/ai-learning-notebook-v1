@@ -5,7 +5,7 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { Sidebar } from "./Sidebar";
 import type { UseLessonProgressType } from "../hooks/useLessonProgress";
-import { useColorMode } from "../theme/theme";
+import { useColorMode } from "../theme/ColorModeContext";
 
 interface LayoutProps {
   progress: UseLessonProgressType;

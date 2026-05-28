@@ -4,7 +4,7 @@ import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typogr
 import { DarkMode, LightMode } from "@mui/icons-material";
 import { LayoutDashboard, Milestone, Terminal, BookOpen, GraduationCap } from "lucide-react";
 import { ProgressBar } from "./ProgressBar";
-import { useColorMode } from "../theme/theme";
+import { useColorMode } from "../theme/ColorModeContext";
 
 interface SidebarProps {
   overallProgress: number;

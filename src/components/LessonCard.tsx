@@ -4,7 +4,7 @@ import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
 import { Clock } from "lucide-react";
 import type { Lesson, LessonStatus } from "../types/lesson";
 import { StatusBadge } from "./StatusBadge";
-import { useColorMode } from "../theme/theme";
+import { useColorMode } from "../theme/ColorModeContext";
 
 interface LessonCardProps {
   lesson: Lesson;
