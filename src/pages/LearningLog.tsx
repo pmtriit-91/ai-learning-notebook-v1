@@ -107,7 +107,7 @@ export const LearningLog: React.FC = () => {
                         sx={{
                             fontFamily: 'var(--font-heading)',
                             fontWeight: 800,
-                            color: '#0f172a',
+                            color: 'text.primary',
                             mb: 1.5,
                             fontSize: { xs: '2rem', md: '2.5rem' },
                             display: 'flex',
@@ -115,10 +115,12 @@ export const LearningLog: React.FC = () => {
                             gap: 1.5,
                         }}
                     >
-                        <BookOpen className="w-8 h-8 text-blue-600" />
+                        <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
+                            <BookOpen className="w-8 h-8" />
+                        </Box>
                         Nhật ký học tập
                     </Typography>
-                    <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem' }}>
+                    <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.05rem' }}>
                         Lưu giữ và hệ thống hóa kiến thức thực tế thu được trong quá trình code cùng AI.
                     </Typography>
                 </Box>
@@ -130,11 +132,12 @@ export const LearningLog: React.FC = () => {
                         textTransform: 'none',
                         fontWeight: 700,
                         borderRadius: '10px',
-                        backgroundColor: '#2563eb',
+                        backgroundColor: 'primary.main',
+                        color: 'primary.contrastText',
                         py: 1.25,
                         px: 2.5,
                         '&:hover': {
-                            backgroundColor: '#1d4ed8',
+                            backgroundColor: 'primary.dark',
                         },
                     }}
                 >
@@ -150,15 +153,15 @@ export const LearningLog: React.FC = () => {
                     sx={{
                         p: 4,
                         borderRadius: '16px',
-                        border: '1px solid #e2e8f0',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
+                        border: '1px solid',
+                        borderColor: 'divider',
                         mb: 4,
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'background.paper',
                     }}
                 >
                     <Typography
                         variant="h6"
-                        sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0f172a', mb: 3 }}
+                        sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'text.primary', mb: 3 }}
                     >
                         Ghi chép hôm nay
                     </Typography>
@@ -267,10 +270,11 @@ export const LearningLog: React.FC = () => {
                                     textTransform: 'none',
                                     fontWeight: 700,
                                     borderRadius: '8px',
-                                    backgroundColor: '#2563eb',
+                                    backgroundColor: 'primary.main',
+                                    color: 'primary.contrastText',
                                     px: 4,
                                     py: 1,
-                                    '&:hover': { backgroundColor: '#1d4ed8' },
+                                    '&:hover': { backgroundColor: 'primary.dark' },
                                 }}
                             >
                                 Lưu Nhật Ký
@@ -288,15 +292,16 @@ export const LearningLog: React.FC = () => {
                             p: 6,
                             textAlign: 'center',
                             borderRadius: '16px',
-                            border: '1px solid #e2e8f0',
-                            backgroundColor: '#ffffff',
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            backgroundColor: 'background.paper',
                         }}
                     >
                         <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                        <Typography variant="h6" sx={{ fontWeight: 700, color: '#475569', mb: 1 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.secondary', mb: 1 }}>
                             Chưa có nhật ký học tập nào
                         </Typography>
-                        <Typography variant="body2" sx={{ color: '#64748b', mb: 3 }}>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
                             Hãy ghi lại những đúc kết của bạn sau mỗi bài học để hệ thống hóa kiến thức tốt hơn.
                         </Typography>
                         <Button
@@ -314,19 +319,21 @@ export const LearningLog: React.FC = () => {
                             <Card
                                 key={log.id}
                                 sx={{
-                                    border: '1px solid #e2e8f0',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
                                     boxShadow: '0 1px 3px rgba(0,0,0,0.01)',
                                     borderRadius: '14px',
                                     overflow: 'hidden',
-                                    backgroundColor: '#ffffff',
+                                    backgroundColor: 'background.paper',
                                 }}
                             >
                                 <Box
                                     sx={{
                                         px: 3,
                                         py: 2,
-                                        backgroundColor: '#f8fafc',
-                                        borderBottom: '1px solid #e2e8f0',
+                                        backgroundColor: 'background.default',
+                                        borderBottom: '1px solid',
+                                        borderBottomColor: 'divider',
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         alignItems: 'center',
@@ -336,7 +343,7 @@ export const LearningLog: React.FC = () => {
                                 >
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
                                         <Calendar className="w-4 h-4 text-slate-500" />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#475569' }}>
+                                        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'text.secondary' }}>
                                             {log.date}
                                         </Typography>
                                         <Divider
@@ -348,7 +355,7 @@ export const LearningLog: React.FC = () => {
                                             variant="subtitle2"
                                             sx={{
                                                 fontWeight: 800,
-                                                color: '#2563eb',
+                                                color: 'primary.main',
                                                 fontFamily: 'var(--font-heading)',
                                             }}
                                         >
@@ -359,10 +366,11 @@ export const LearningLog: React.FC = () => {
                                         size="small"
                                         onClick={() => handleDelete(log.id)}
                                         sx={{
-                                            color: '#94a3b8',
+                                            color: 'text.disabled',
                                             '&:hover': {
-                                                color: '#ef4444',
-                                                backgroundColor: '#fef2f2',
+                                                color: 'error.main',
+                                                backgroundColor: 'error.light',
+                                                opacity: 0.15,
                                             },
                                         }}
                                     >
@@ -377,17 +385,17 @@ export const LearningLog: React.FC = () => {
                                                 variant="caption"
                                                 sx={{
                                                     fontWeight: 800,
-                                                    color: '#64748b',
+                                                    color: 'text.secondary',
                                                     display: 'block',
                                                     mb: 0.75,
                                                     letterSpacing: '0.5px',
                                                 }}
                                             >
                                                 HÔM NAY TÔI HIỂU GÌ / HỌC ĐƯỢC GÌ
-                                            </Typography>
+                </Typography>
                                             <Typography
                                                 variant="body2"
-                                                sx={{ color: '#0f172a', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                sx={{ color: 'text.primary', lineHeight: 1.6, fontSize: '0.925rem' }}
                                             >
                                                 {log.whatLearned}
                                             </Typography>
@@ -400,17 +408,17 @@ export const LearningLog: React.FC = () => {
                                                     variant="caption"
                                                     sx={{
                                                         fontWeight: 800,
-                                                        color: '#64748b',
+                                                        color: 'text.secondary',
                                                         display: 'block',
                                                         mb: 0.75,
                                                         letterSpacing: '0.5px',
                                                     }}
                                                 >
                                                     LIÊN HỆ THỰC TẾ CODEBASE / WORKFLOW
-                                                </Typography>
+                </Typography>
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: '#334155', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                    sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.925rem' }}
                                                 >
                                                     {log.codebaseConnection}
                                                 </Typography>
@@ -424,17 +432,17 @@ export const LearningLog: React.FC = () => {
                                                     variant="caption"
                                                     sx={{
                                                         fontWeight: 800,
-                                                        color: '#64748b',
+                                                        color: 'text.secondary',
                                                         display: 'block',
                                                         mb: 0.75,
                                                         letterSpacing: '0.5px',
                                                     }}
                                                 >
                                                     SAI LẦM CŨ / KINH NGHIỆM RÚT RA
-                                                </Typography>
+                </Typography>
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: '#b45309', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                    sx={{ color: 'warning.main', lineHeight: 1.6, fontSize: '0.925rem' }}
                                                 >
                                                     {log.mistakesAndLessons}
                                                 </Typography>
@@ -448,23 +456,24 @@ export const LearningLog: React.FC = () => {
                                                     variant="caption"
                                                     sx={{
                                                         fontWeight: 800,
-                                                        color: '#64748b',
+                                                        color: 'text.secondary',
                                                         display: 'block',
                                                         mb: 0.75,
                                                         letterSpacing: '0.5px',
                                                     }}
                                                 >
                                                     PROMPT HỮU DỤNG DÙNG LẠI ĐƯỢC
-                                                </Typography>
+                </Typography>
                                                 <Box
                                                     sx={{
-                                                        backgroundColor: '#f8fafc',
-                                                        border: '1px solid #e2e8f0',
+                                                        backgroundColor: 'background.default',
+                                                        border: '1px solid',
+                                                        borderColor: 'divider',
                                                         borderRadius: '6px',
                                                         p: 1.5,
                                                         fontFamily: 'var(--font-mono)',
                                                         fontSize: '0.825rem',
-                                                        color: '#0f172a',
+                                                        color: 'text.primary',
                                                         whiteSpace: 'pre-wrap',
                                                     }}
                                                 >

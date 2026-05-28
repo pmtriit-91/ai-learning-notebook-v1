@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { ContentCopy, Check } from "@mui/icons-material";
+import { useColorMode } from "../theme/theme";
 
 interface PromptBlockProps {
   prompt: string;
@@ -8,6 +9,7 @@ interface PromptBlockProps {
 
 export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
   const [copied, setCopied] = useState(false);
+  const { mode } = useColorMode();
 
   const handleCopy = async () => {
     try {
@@ -23,8 +25,9 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
     <Box
       sx={{
         position: "relative",
-        backgroundColor: "#f8fafc",
-        border: "1px solid #e2e8f0",
+        backgroundColor: "background.default",
+        border: "1px solid",
+        borderColor: "divider",
         borderRadius: "8px",
         padding: "16px",
         pt: "16px",
@@ -32,7 +35,7 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
         fontFamily: "var(--font-mono)",
         fontSize: "0.875rem",
         lineHeight: 1.6,
-        color: "#0f172a",
+        color: "text.primary",
         whiteSpace: "pre-wrap",
         overflowX: "auto",
         my: 2,
@@ -51,14 +54,24 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
             onClick={handleCopy}
             size="small"
             sx={{
-              backgroundColor: copied ? "#d1fae5" : "#ffffff",
-              color: copied ? "#059669" : "#64748b",
+              backgroundColor: copied
+                ? (mode === "light" ? "#d1fae5" : "rgba(16, 185, 129, 0.2)")
+                : "background.paper",
+              color: copied
+                ? (mode === "light" ? "#059669" : "#34d399")
+                : "text.secondary",
               border: "1px solid",
-              borderColor: copied ? "#a7f3d0" : "#e2e8f0",
+              borderColor: copied
+                ? (mode === "light" ? "#a7f3d0" : "rgba(16, 185, 129, 0.4)")
+                : "divider",
               boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
               "&:hover": {
-                backgroundColor: copied ? "#a7f3d0" : "#f8fafc",
-                borderColor: copied ? "#34d399" : "#cbd5e1",
+                backgroundColor: copied
+                  ? (mode === "light" ? "#a7f3d0" : "rgba(16, 185, 129, 0.3)")
+                  : "action.hover",
+                borderColor: copied
+                  ? (mode === "light" ? "#34d399" : "#34d399")
+                  : "text.primary",
               },
             }}
           >

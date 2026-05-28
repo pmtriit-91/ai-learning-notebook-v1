@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Box, Drawer, IconButton, AppBar, Toolbar, Typography } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
+import { DarkMode, LightMode } from "@mui/icons-material";
 import { Sidebar } from "./Sidebar";
 import type { UseLessonProgressType } from "../hooks/useLessonProgress";
+import { useColorMode } from "../theme/theme";
 
 interface LayoutProps {
   progress: UseLessonProgressType;
@@ -11,6 +13,7 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ progress }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { mode, toggleColorMode } = useColorMode();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -19,16 +22,17 @@ export const Layout: React.FC<LayoutProps> = ({ progress }) => {
   const { overallProgress, completedLessonsCount, totalLessons } = progress;
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8fafc" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "background.default" }}>
       {/* Mobile Top Header */}
       <AppBar
         position="fixed"
         sx={{
           display: { md: "none" },
-          backgroundColor: "#ffffff",
-          color: "#0f172a",
+          backgroundColor: "background.paper",
+          color: "text.primary",
           boxShadow: "none",
-          borderBottom: "1px solid #e2e8f0",
+          borderBottom: "1px solid",
+          borderColor: "divider",
           zIndex: (theme) => theme.zIndex.drawer + 1,
         }}
       >
@@ -47,10 +51,23 @@ export const Layout: React.FC<LayoutProps> = ({ progress }) => {
               AI Learning Notebook
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography variant="caption" sx={{ fontWeight: 800, color: "#2563eb", backgroundColor: "#eff6ff", px: 1.5, py: 0.5, borderRadius: "4px" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Typography
+              variant="caption"
+              sx={{
+                fontWeight: 800,
+                color: mode === "light" ? "primary.main" : "primary.light",
+                backgroundColor: mode === "light" ? "rgba(29, 78, 216, 0.08)" : "rgba(59, 130, 246, 0.15)",
+                px: 1.5,
+                py: 0.5,
+                borderRadius: "4px"
+              }}
+            >
               {overallProgress}%
             </Typography>
+            <IconButton onClick={toggleColorMode} color="inherit" size="small">
+              {mode === "light" ? <DarkMode fontSize="small" /> : <LightMode fontSize="small" sx={{ color: "warning.main" }} />}
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>

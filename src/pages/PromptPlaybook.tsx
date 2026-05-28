@@ -32,12 +32,12 @@ export const PromptPlaybook: React.FC = () => {
                 description:
                     'Dùng khi gặp lỗi cụ thể trong file code. Giới hạn AI chỉ sửa đúng nguyên nhân gây bug, không lan man.',
                 prompt: `Tôi đang gặp lỗi sau trong ứng dụng: [mô tả lỗi hoặc dán log lỗi ở đây]
-
+ 
 Đây là mã nguồn của file liên quan:
 \`\`\`[ngôn ngữ]
 [dán code file liên quan vào đây]
 \`\`\`
-
+ 
 Yêu cầu:
 1. Tìm nguyên nhân gốc rễ và giải thích ngắn gọn bằng 2 dòng.
 2. Chỉ sửa đúng nguyên nhân trực tiếp gây lỗi. Không tự ý refactor phần code khác xung quanh.
@@ -51,12 +51,12 @@ Yêu cầu:
 \`\`\`
 [Dán stack trace lỗi ở đây]
 \`\`\`
-
+ 
 Dưới đây là mã nguồn của module nghi ngờ gây lỗi:
 \`\`\`[ngôn ngữ]
 [Dán code của module]
 \`\`\`
-
+ 
 Hãy phân tích stack trace để tìm ra đường đi của lỗi (error path), chỉ ra chính xác dòng code gây crash và đề xuất giải pháp vá lỗi an toàn.`,
             },
         ],
@@ -68,7 +68,7 @@ Hãy phân tích stack trace để tìm ra đường đi của lỗi (error path
 \`\`\`tsx
 [Dán code component lớn ở đây]
 \`\`\`
-
+ 
 Yêu cầu:
 1. Hãy phân tích và đề xuất phương án tách component này thành các component con nhỏ hơn.
 2. Viết mã nguồn cho các component mới.
@@ -82,7 +82,7 @@ Yêu cầu:
 \`\`\`[ngôn ngữ]
 [Dán code cần tối ưu]
 \`\`\`
-
+ 
 Hãy áp dụng các kỹ thuật tối ưu (ví dụ trong React: useMemo, useCallback, React.memo, hoặc tối ưu vòng lặp). Giải thích rõ bạn đã cải thiện thuật toán ở điểm nào và độ phức tạp thời gian (time complexity) thay đổi ra sao.`,
             },
         ],
@@ -94,7 +94,7 @@ Hãy áp dụng các kỹ thuật tối ưu (ví dụ trong React: useMemo, useC
 \`\`\`[ngôn ngữ]
 [Dán code cần review]
 \`\`\`
-
+ 
 Hãy đánh giá và chỉ ra:
 1. Các bug tiềm ẩn (hidden bugs) hoặc nguy cơ crash ứng dụng.
 2. Các lỗ hổng bảo mật (ví dụ: XSS, SQL Injection, lộ API key).
@@ -108,7 +108,7 @@ Trình bày dưới dạng danh mục gạch đầu dòng rõ ràng.`,
                 title: 'Prompt Ràng Buộc Thép - Chống Đoán Mò (Anti-hallucination)',
                 description: 'Dùng để kiểm soát AI Agent khi tương tác với codebase lạ. Ép AI không được bịa hàm/API.',
                 prompt: `Nhiệm vụ của bạn là: [mô tả nhiệm vụ ở đây]
-
+ 
 YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
 1. Không được đoán bừa tên hàm, tên component, hoặc API endpoints nếu chưa thấy chúng xuất hiện trong ngữ cảnh codebase được cung cấp.
 2. Nếu thiếu thông tin hoặc codebase thiếu file liên quan, hãy dừng lại và báo rõ cho tôi biết bạn cần đọc thêm file nào hoặc cần thông tin gì.
@@ -122,7 +122,7 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                 description:
                     'Bắt Agent viết báo cáo chi tiết sau khi hoàn thành task để con người dễ kiểm tra và viết commit.',
                 prompt: `Sau khi thực hiện các thay đổi code thành công, hãy viết một báo cáo tóm tắt theo cấu trúc sau:
-
+ 
 ### BÁO CÁO THAY ĐỔI
 1. **Nguyên nhân gây lỗi**: (Mô tả ngắn gọn lý do xảy ra bug)
 2. **Danh sách file đã chỉnh sửa**:
@@ -143,7 +143,7 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                     sx={{
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
-                        color: '#0f172a',
+                        color: 'text.primary',
                         mb: 1.5,
                         fontSize: { xs: '2rem', md: '2.5rem' },
                         display: 'flex',
@@ -151,10 +151,12 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                         gap: 1.5,
                     }}
                 >
-                    <Terminal className="w-8 h-8 text-blue-600" />
+                    <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
+                        <Terminal className="w-8 h-8" />
+                    </Box>
                     Prompt Playbook
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem' }}>
+                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.05rem' }}>
                     Bộ sưu tập các câu lệnh Prompt chất lượng cao được thiết kế sẵn để làm việc với AI một cách có kiểm
                     soát và đạt hiệu suất tối ưu.
                 </Typography>
@@ -163,12 +165,13 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
             {/* Tabs Filter */}
             <Paper
                 sx={{
-                    border: '1px solid #e2e8f0',
+                    border: '1px solid',
+                    borderColor: 'divider',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.01)',
                     borderRadius: '12px',
                     mb: 4,
                     overflow: 'hidden',
-                    backgroundColor: '#ffffff',
+                    backgroundColor: 'background.paper',
                 }}
             >
                 <Tabs
@@ -177,22 +180,23 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                     variant="scrollable"
                     scrollButtons="auto"
                     sx={{
-                        borderBottom: '1px solid #e2e8f0',
-                        backgroundColor: '#f8fafc',
+                        borderBottom: '1px solid',
+                        borderBottomColor: 'divider',
+                        backgroundColor: 'background.default',
                         '& .MuiTabs-indicator': {
-                            backgroundColor: '#2563eb',
+                            backgroundColor: 'primary.main',
                             height: 3,
                         },
                         '& .MuiTab-root': {
                             textTransform: 'none',
                             fontWeight: 700,
                             fontSize: '0.95rem',
-                            color: '#64748b',
+                            color: 'text.secondary',
                             py: 2,
                             px: 3,
                             minHeight: 52,
                             '&.Mui-selected': {
-                                color: '#2563eb',
+                                color: 'primary.main',
                             },
                         },
                     }}
@@ -216,9 +220,10 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                                 key={idx}
                                 sx={{
                                     p: 3,
-                                    border: '1px solid #f1f5f9',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
                                     borderRadius: '10px',
-                                    backgroundColor: '#ffffff',
+                                    backgroundColor: 'background.paper',
                                 }}
                             >
                                 <Typography
@@ -226,14 +231,14 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                                     sx={{
                                         fontFamily: 'var(--font-heading)',
                                         fontWeight: 800,
-                                        color: '#0f172a',
+                                        color: 'text.primary',
                                         mb: 1,
                                         fontSize: '1.1rem',
                                     }}
                                 >
                                     {item.title}
                                 </Typography>
-                                <Typography variant="body2" sx={{ color: '#475569', mb: 2, lineHeight: 1.5 }}>
+                                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2, lineHeight: 1.5 }}>
                                     {item.description}
                                 </Typography>
                                 <PromptBlock prompt={item.prompt} />

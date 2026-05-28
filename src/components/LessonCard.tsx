@@ -4,6 +4,7 @@ import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
 import { Clock } from "lucide-react";
 import type { Lesson, LessonStatus } from "../types/lesson";
 import { StatusBadge } from "./StatusBadge";
+import { useColorMode } from "../theme/theme";
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -12,6 +13,7 @@ interface LessonCardProps {
 
 export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
   const navigate = useNavigate();
+  const { mode } = useColorMode();
 
   const handleCardClick = () => {
     navigate(`/lesson/${lesson.id}`);
@@ -23,16 +25,20 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
       sx={{
         cursor: "pointer",
         transition: "all 0.2s ease-in-out",
-        border: "1px solid #e2e8f0",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
+        border: "1px solid",
+        borderColor: "divider",
+        backgroundColor: "background.paper",
+        boxShadow: "none",
         borderRadius: "12px",
         height: "100%",
         display: "flex",
         flexDirection: "column",
         "&:hover": {
           transform: "translateY(-2px)",
-          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05)",
-          borderColor: "#cbd5e1",
+          boxShadow: mode === "light" 
+            ? "0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05)"
+            : "0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3)",
+          borderColor: "primary.main",
         },
       }}
     >
@@ -43,12 +49,12 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
             variant="caption"
             sx={{
               fontWeight: 800,
-              color: "#2563eb",
-              letterSpacing: "1px",
-              backgroundColor: "#eff6ff",
+              color: mode === "light" ? "primary.main" : "primary.light",
+              backgroundColor: mode === "light" ? "rgba(29, 78, 216, 0.08)" : "rgba(59, 130, 246, 0.15)",
               px: 1.5,
               py: 0.5,
               borderRadius: "6px",
+              letterSpacing: "0.5px"
             }}
           >
             BÀI {lesson.lessonNumber.toString().padStart(2, "0")}
@@ -64,7 +70,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
             fontWeight: 700,
             fontSize: "1.1rem",
             lineHeight: 1.4,
-            color: "#0f172a",
+            color: "text.primary",
             mb: 1.5,
             display: "-webkit-box",
             WebkitLineClamp: 2,
@@ -80,7 +86,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
         <Typography
           variant="body2"
           sx={{
-            color: "#475569",
+            color: "text.secondary",
             lineHeight: 1.6,
             mb: 2.5,
             display: "-webkit-box",
@@ -104,10 +110,11 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
               sx={{
                 fontSize: "0.725rem",
                 fontWeight: 600,
-                backgroundColor: "#f1f5f9",
-                color: "#475569",
+                backgroundColor: "background.default",
+                color: "text.secondary",
                 height: 22,
-                border: "1px solid #e2e8f0"
+                border: "1px solid",
+                borderColor: "divider"
               }}
             />
           ))}
@@ -118,10 +125,11 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
               sx={{
                 fontSize: "0.725rem",
                 fontWeight: 600,
-                backgroundColor: "#f1f5f9",
-                color: "#64748b",
+                backgroundColor: "background.default",
+                color: "text.secondary",
                 height: 22,
-                border: "1px solid #e2e8f0"
+                border: "1px solid",
+                borderColor: "divider"
               }}
             />
           )}
@@ -129,7 +137,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
 
         {/* Footer (Estimated Time) */}
         {lesson.estimatedMinutes && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, color: "#64748b", mt: "auto", pt: 1.5, borderTop: "1px solid #f1f5f9" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, color: "text.secondary", mt: "auto", pt: 1.5, borderTop: "1px solid", borderColor: "divider" }}>
             <Clock className="w-4 h-4 text-slate-400" />
             <Typography variant="caption" sx={{ fontWeight: 600 }}>
               {lesson.estimatedMinutes} phút học

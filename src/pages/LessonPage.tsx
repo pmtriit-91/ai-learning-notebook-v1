@@ -118,11 +118,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                     onClick={() => navigate('/roadmap')}
                     sx={{
                         textTransform: 'none',
-                        color: '#64748b',
+                        color: 'text.secondary',
                         fontWeight: 600,
                         p: 0,
                         minWidth: 'auto',
-                        '&:hover': { color: '#0f172a' },
+                        '&:hover': { color: 'text.primary' },
                     }}
                 >
                     Quay lại Lộ trình
@@ -132,11 +132,12 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
             {/* Lesson Header Card */}
             <Card
                 sx={{
-                    border: '1px solid #e2e8f0',
+                    border: '1px solid',
+                    borderColor: 'divider',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.01)',
                     borderRadius: '16px',
                     mb: 4,
-                    backgroundColor: '#ffffff',
+                    backgroundColor: 'background.paper',
                 }}
             >
                 <CardContent sx={{ p: 4 }}>
@@ -146,8 +147,8 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                 variant="caption"
                                 sx={{
                                     fontWeight: 800,
-                                    color: '#2563eb',
-                                    backgroundColor: '#eff6ff',
+                                    color: (theme) => theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                                    backgroundColor: (theme) => theme.palette.mode === 'light' ? 'rgba(29, 78, 216, 0.08)' : 'rgba(59, 130, 246, 0.15)',
                                     px: 1.5,
                                     py: 0.5,
                                     borderRadius: '6px',
@@ -163,7 +164,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                 sx={{
                                     fontFamily: 'var(--font-heading)',
                                     fontWeight: 800,
-                                    color: '#0f172a',
+                                    color: 'text.primary',
                                     mb: 2,
                                     fontSize: { xs: '1.75rem', md: '2.25rem' },
                                     lineHeight: 1.2,
@@ -173,7 +174,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             </Typography>
                             <Typography
                                 variant="body1"
-                                sx={{ color: '#475569', mb: 2, lineHeight: 1.7, fontSize: '1.025rem' }}
+                                sx={{ color: 'text.secondary', mb: 2, lineHeight: 1.7, fontSize: '1.025rem' }}
                             >
                                 {lesson.description}
                             </Typography>
@@ -185,9 +186,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                         key={concept}
                                         label={concept}
                                         sx={{
-                                            backgroundColor: '#f8fafc',
-                                            border: '1px solid #e2e8f0',
-                                            color: '#334155',
+                                            backgroundColor: 'background.default',
+                                            border: '1px solid',
+                                            borderColor: 'divider',
+                                            color: 'text.secondary',
                                             fontWeight: 600,
                                             fontSize: '0.775rem',
                                             height: 26,
@@ -202,18 +204,19 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             <Paper
                                 sx={{
                                     p: 2.5,
-                                    border: '1px solid #e2e8f0',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
                                     borderRadius: '12px',
                                     width: '100%',
                                     maxWidth: 300,
-                                    backgroundColor: '#ffffff',
+                                    backgroundColor: 'background.paper',
                                 }}
                             >
                                 <Typography
                                     variant="subtitle2"
                                     sx={{
                                         fontWeight: 800,
-                                        color: '#0f172a',
+                                        color: 'text.primary',
                                         mb: 2,
                                         textAlign: 'center',
                                         letterSpacing: '0.5px',
@@ -233,12 +236,12 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                             fontWeight: 700,
                                             borderRadius: '8px',
                                             py: 1,
-                                            backgroundColor: status === 'completed' ? '#047857' : 'transparent',
-                                            color: status === 'completed' ? '#ffffff' : '#047857',
-                                            borderColor: '#10b981',
+                                            backgroundColor: status === 'completed' ? 'success.main' : 'transparent',
+                                            color: status === 'completed' ? 'success.contrastText' : 'success.main',
+                                            borderColor: 'success.main',
                                             '&:hover': {
-                                                backgroundColor: status === 'completed' ? '#065f46' : '#ecfdf5',
-                                                borderColor: '#059669',
+                                                backgroundColor: status === 'completed' ? 'success.dark' : 'rgba(46, 125, 50, 0.08)',
+                                                borderColor: 'success.dark',
                                             },
                                         }}
                                     >
@@ -255,12 +258,12 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                             fontWeight: 700,
                                             borderRadius: '8px',
                                             py: 1,
-                                            backgroundColor: status === 'learning' ? '#d97706' : 'transparent',
-                                            color: status === 'learning' ? '#ffffff' : '#b45309',
-                                            borderColor: '#f59e0b',
+                                            backgroundColor: status === 'learning' ? 'warning.main' : 'transparent',
+                                            color: status === 'learning' ? 'warning.contrastText' : 'warning.main',
+                                            borderColor: 'warning.main',
                                             '&:hover': {
-                                                backgroundColor: status === 'learning' ? '#b45309' : '#fffbeb',
-                                                borderColor: '#d97706',
+                                                backgroundColor: status === 'learning' ? 'warning.dark' : 'rgba(237, 108, 2, 0.08)',
+                                                borderColor: 'warning.dark',
                                             },
                                         }}
                                     >
@@ -277,12 +280,12 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                             fontWeight: 700,
                                             borderRadius: '8px',
                                             py: 1,
-                                            backgroundColor: status === 'not-started' ? '#64748b' : 'transparent',
-                                            color: status === 'not-started' ? '#ffffff' : '#475569',
-                                            borderColor: '#cbd5e1',
+                                            backgroundColor: status === 'not-started' ? 'text.secondary' : 'transparent',
+                                            color: status === 'not-started' ? 'background.paper' : 'text.secondary',
+                                            borderColor: 'divider',
                                             '&:hover': {
-                                                backgroundColor: status === 'not-started' ? '#475569' : '#f8fafc',
-                                                borderColor: '#94a3b8',
+                                                backgroundColor: status === 'not-started' ? 'text.primary' : 'action.hover',
+                                                borderColor: 'divider',
                                             },
                                         }}
                                     >
@@ -296,7 +299,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             gap: 1,
-                                            color: '#64748b',
+                                            color: 'text.secondary',
                                             mt: 2,
                                         }}
                                     >
@@ -321,9 +324,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                         sx={{
                             p: 4,
                             borderRadius: '16px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid',
+                            borderColor: 'divider',
                             mb: 4,
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'background.paper',
                         }}
                     >
                         <Typography
@@ -331,15 +335,16 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             sx={{
                                 fontFamily: 'var(--font-heading)',
                                 fontWeight: 800,
-                                color: '#0f172a',
+                                color: 'text.primary',
                                 mb: 2,
                                 pb: 1,
-                                borderBottom: '2px solid #f1f5f9',
+                                borderBottom: '2px solid',
+                                borderBottomColor: 'divider',
                             }}
                         >
                             Đúc kết bài học
                         </Typography>
-                        <Typography variant="body1" sx={{ color: '#334155', lineHeight: 1.8, fontSize: '1rem' }}>
+                        <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, fontSize: '1rem' }}>
                             {lesson.summary}
                         </Typography>
                     </Paper>
@@ -349,9 +354,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                         sx={{
                             p: 4,
                             borderRadius: '16px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid',
+                            borderColor: 'divider',
                             mb: 4,
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'background.paper',
                         }}
                     >
                         <Typography
@@ -359,10 +365,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             sx={{
                                 fontFamily: 'var(--font-heading)',
                                 fontWeight: 800,
-                                color: '#0f172a',
+                                color: 'text.primary',
                                 mb: 2.5,
                                 pb: 1,
-                                borderBottom: '2px solid #f1f5f9',
+                                borderBottom: '2px solid',
+                                borderBottomColor: 'divider',
                             }}
                         >
                             Điểm cốt lõi cần nhớ (Key Takeaways)
@@ -370,10 +377,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                         <Stack spacing={2}>
                             {lesson.keyTakeaways.map((takeaway, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                                    <Box sx={{ mt: 0.5, color: '#10b981', flexShrink: 0 }}>
-                                        <CheckCircle2 className="w-5 h-5 text-emerald-500 fill-emerald-50" />
+                                    <Box sx={{ mt: 0.5, color: 'success.main', flexShrink: 0 }}>
+                                        <CheckCircle2 className="w-5 h-5" />
                                     </Box>
-                                    <Typography variant="body1" sx={{ color: '#334155', lineHeight: 1.6 }}>
+                                    <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                                         {takeaway}
                                     </Typography>
                                 </Box>
@@ -387,9 +394,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             sx={{
                                 p: 4,
                                 borderRadius: '16px',
-                                border: '1px solid #e2e8f0',
+                                border: '1px solid',
+                                borderColor: 'divider',
                                 mb: 4,
-                                backgroundColor: '#ffffff',
+                                backgroundColor: 'background.paper',
                             }}
                         >
                             <Typography
@@ -397,10 +405,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                 sx={{
                                     fontFamily: 'var(--font-heading)',
                                     fontWeight: 800,
-                                    color: '#0f172a',
+                                    color: 'text.primary',
                                     mb: 2.5,
                                     pb: 1,
-                                    borderBottom: '2px solid #f1f5f9',
+                                    borderBottom: '2px solid',
+                                    borderBottomColor: 'divider',
                                 }}
                             >
                                 Prompt mẫu thực hành
@@ -417,9 +426,10 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             sx={{
                                 p: 4,
                                 borderRadius: '16px',
-                                border: '1px solid #e2e8f0',
+                                border: '1px solid',
+                                borderColor: 'divider',
                                 mb: 4,
-                                backgroundColor: '#ffffff',
+                                backgroundColor: 'background.paper',
                             }}
                         >
                             <Typography
@@ -427,10 +437,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                 sx={{
                                     fontFamily: 'var(--font-heading)',
                                     fontWeight: 800,
-                                    color: '#0f172a',
+                                    color: 'text.primary',
                                     mb: 2.5,
                                     pb: 1,
-                                    borderBottom: '2px solid #f1f5f9',
+                                    borderBottom: '2px solid',
+                                    borderBottomColor: 'divider',
                                 }}
                             >
                                 Bài tập thực hành (Exercises)
@@ -441,7 +452,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                         key={index}
                                         component="li"
                                         variant="body1"
-                                        sx={{ color: '#334155', lineHeight: 1.7, listStyleType: 'disc' }}
+                                        sx={{ color: 'text.secondary', lineHeight: 1.7, listStyleType: 'disc' }}
                                     >
                                         {exercise}
                                     </Typography>
@@ -458,14 +469,15 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                         sx={{
                             p: 3,
                             borderRadius: '16px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid',
+                            borderColor: 'divider',
                             mb: 4,
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'background.paper',
                         }}
                     >
                         <Typography
                             variant="subtitle1"
-                            sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0f172a', mb: 2 }}
+                            sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'text.primary', mb: 2 }}
                         >
                             Checklist hoàn thành
                         </Typography>
@@ -486,7 +498,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                         <Typography
                                             variant="body2"
                                             sx={{
-                                                color: checklistState[index] ? '#94a3b8' : '#334155',
+                                                color: checklistState[index] ? 'text.disabled' : 'text.secondary',
                                                 textDecoration: checklistState[index] ? 'line-through' : 'none',
                                                 lineHeight: 1.5,
                                                 fontWeight: 600,
@@ -512,11 +524,11 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                     {/* References */}
                     {lesson.references && lesson.references.length > 0 && (
                         <Paper
-                            sx={{ p: 3, borderRadius: '16px', border: '1px solid #e2e8f0', backgroundColor: '#ffffff' }}
+                            sx={{ p: 3, borderRadius: '16px', border: '1px solid', borderColor: 'divider', backgroundColor: 'background.paper' }}
                         >
                             <Typography
                                 variant="subtitle1"
-                                sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: '#0f172a', mb: 2 }}
+                                sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'text.primary', mb: 2 }}
                             >
                                 Tài liệu tham khảo
                             </Typography>
@@ -532,7 +544,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                                 alignItems: 'center',
                                                 gap: 0.75,
                                                 fontSize: '0.875rem',
-                                                color: '#2563eb',
+                                                color: 'primary.main',
                                                 fontWeight: 600,
                                                 textDecoration: 'none',
                                                 '&:hover': {
@@ -563,18 +575,18 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             textTransform: 'none',
                             fontWeight: 700,
                             borderRadius: '10px',
-                            borderColor: '#cbd5e1',
-                            color: '#334155',
+                            borderColor: 'divider',
+                            color: 'text.secondary',
                             px: 3,
                             py: 1.25,
                             '&:hover': {
-                                borderColor: '#94a3b8',
-                                backgroundColor: '#f8fafc',
+                                borderColor: 'divider',
+                                backgroundColor: 'action.hover',
                             },
                         }}
                     >
                         <Box sx={{ textAlign: 'left' }}>
-                            <Typography variant="caption" sx={{ display: 'block', color: '#64748b', fontWeight: 600 }}>
+                            <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', fontWeight: 600 }}>
                                 BÀI TRƯỚC
                             </Typography>
                             <Typography variant="body2" sx={{ fontWeight: 700, display: { xs: 'none', sm: 'block' } }}>
@@ -595,19 +607,19 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                             textTransform: 'none',
                             fontWeight: 700,
                             borderRadius: '10px',
-                            backgroundColor: '#2563eb',
-                            color: '#ffffff',
+                            backgroundColor: 'primary.main',
+                            color: 'primary.contrastText',
                             px: 3,
                             py: 1.25,
                             '&:hover': {
-                                backgroundColor: '#1d4ed8',
+                                backgroundColor: 'primary.dark',
                             },
                         }}
                     >
                         <Box sx={{ textAlign: 'right' }}>
                             <Typography
                                 variant="caption"
-                                sx={{ display: 'block', color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}
+                                sx={{ display: 'block', color: 'primary.contrastText', opacity: 0.8, fontWeight: 600 }}
                             >
                                 BÀI TIẾP THEO
                             </Typography>

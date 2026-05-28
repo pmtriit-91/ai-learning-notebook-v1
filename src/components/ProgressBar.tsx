@@ -12,11 +12,11 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, height =
     <Box sx={{ width: "100%" }}>
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
         {label && (
-          <Typography variant="body2" sx={{ fontWeight: 600, color: "#334155" }}>
+          <Typography variant="body2" sx={{ fontWeight: 700, color: "text.secondary" }}>
             {label}
           </Typography>
         )}
-        <Typography variant="body2" sx={{ fontWeight: 700, color: "#2563eb" }}>
+        <Typography variant="body2" sx={{ fontWeight: 800, color: "primary.main" }}>
           {value}%
         </Typography>
       </Box>
@@ -26,10 +26,10 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, height =
         sx={{
           height: height,
           borderRadius: height / 2,
-          backgroundColor: "#e2e8f0",
+          backgroundColor: "divider",
           "& .MuiLinearProgress-bar": {
             borderRadius: height / 2,
-            backgroundColor: "#2563eb",
+            backgroundColor: "primary.main",
           },
         }}
       />

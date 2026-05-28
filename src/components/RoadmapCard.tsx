@@ -26,16 +26,17 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
     return (
         <Card
             sx={{
-                border: '1px solid #e2e8f0',
+                border: '1px solid',
+                borderColor: 'divider',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
                 borderRadius: '16px',
                 mb: 4,
                 overflow: 'hidden',
-                backgroundColor: '#ffffff',
+                backgroundColor: 'background.paper',
             }}
         >
             {/* Header Phase */}
-            <Box sx={{ p: 3, backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+            <Box sx={{ p: 3, backgroundColor: 'background.default', borderBottom: '1px solid', borderBottomColor: 'divider' }}>
                 <Grid container spacing={3}>
                     <Grid size={{ xs: 12, md: 8 }}>
                         <Typography
@@ -43,19 +44,19 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
                             sx={{
                                 fontFamily: 'var(--font-heading)',
                                 fontWeight: 800,
-                                color: '#0f172a',
+                                color: 'text.primary',
                                 mb: 1,
                             }}
                         >
                             {phase.title}
                         </Typography>
-                        <Typography variant="body2" sx={{ color: '#475569', lineHeight: 1.6 }}>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                             {phase.description}
                         </Typography>
                     </Grid>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <Box
-                            sx={{ backgroundColor: '#ffffff', p: 2, borderRadius: '10px', border: '1px solid #e2e8f0' }}
+                            sx={{ backgroundColor: 'background.paper', p: 2, borderRadius: '10px', border: '1px solid', borderColor: 'divider' }}
                         >
                             <ProgressBar
                                 value={progressPercent}
@@ -81,7 +82,7 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
                                             p: '16px 24px',
                                             transition: 'background-color 0.2s',
                                             '&:hover': {
-                                                backgroundColor: '#f8fafc',
+                                                backgroundColor: 'action.hover',
                                             },
                                         }}
                                     >
@@ -92,8 +93,8 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
                                                     variant="caption"
                                                     sx={{
                                                         fontWeight: 800,
-                                                        color: '#475569',
-                                                        backgroundColor: '#f1f5f9',
+                                                        color: 'text.secondary',
+                                                        backgroundColor: 'action.selected',
                                                         px: 1.5,
                                                         py: 0.5,
                                                         borderRadius: '4px',
@@ -111,7 +112,7 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
                                                     sx={{
                                                         fontFamily: 'var(--font-heading)',
                                                         fontWeight: 700,
-                                                        color: '#0f172a',
+                                                        color: 'text.primary',
                                                         mb: 0.5,
                                                     }}
                                                 >
@@ -120,7 +121,7 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
                                                 <Typography
                                                     variant="body2"
                                                     sx={{
-                                                        color: '#64748b',
+                                                        color: 'text.secondary',
                                                         display: '-webkit-box',
                                                         WebkitLineClamp: 1,
                                                         WebkitBoxOrient: 'vertical',

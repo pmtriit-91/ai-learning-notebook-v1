@@ -47,14 +47,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                     sx={{
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
-                        color: '#0f172a',
+                        color: 'text.primary',
                         mb: 1.5,
                         fontSize: { xs: '2rem', md: '2.5rem' },
                     }}
                 >
                     AI Learning Notebook
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem' }}>
+                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.05rem' }}>
                     Hệ thống hóa lộ trình học AI, lưu trữ ghi chú, prompt mẫu và theo dõi tiến độ học tập cá nhân.
                 </Typography>
             </Box>
@@ -67,18 +67,19 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                         sx={{
                             p: 3,
                             borderRadius: '16px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid',
+                            borderColor: 'divider',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.01)',
                             height: '100%',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'background.paper',
                         }}
                     >
                         <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 800, color: '#64748b', mb: 2, letterSpacing: '0.5px' }}
+                            sx={{ fontWeight: 800, color: 'text.secondary', mb: 2, letterSpacing: '0.5px' }}
                         >
                             TIẾN ĐỘ LỘ TRÌNH HỌC
                         </Typography>
@@ -92,10 +93,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                         sx={{
                             p: 3,
                             borderRadius: '16px',
-                            border: '1px solid #e2e8f0',
+                            border: '1px solid',
+                            borderColor: 'divider',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.01)',
                             height: '100%',
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'background.paper',
                             display: 'flex',
                             alignItems: 'center',
                         }}
@@ -103,12 +105,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                         <Grid container spacing={2} sx={{ width: '100%' }}>
                             <Grid size={{ xs: 4 }}>
                                 <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#0f172a' }}>
+                                    <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary' }}>
                                         {lessons.length}
                                     </Typography>
                                     <Typography
                                         variant="caption"
-                                        sx={{ color: '#64748b', fontWeight: 700, display: 'block', mt: 0.5 }}
+                                        sx={{ color: 'text.secondary', fontWeight: 700, display: 'block', mt: 0.5 }}
                                     >
                                         TỔNG BÀI
                                     </Typography>
@@ -116,12 +118,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                             </Grid>
                             <Grid size={{ xs: 4 }}>
                                 <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#b45309' }}>
+                                    <Typography variant="h4" sx={{ fontWeight: 800, color: 'warning.main' }}>
                                         {learningLessonsCount}
                                     </Typography>
                                     <Typography
                                         variant="caption"
-                                        sx={{ color: '#b45309', fontWeight: 700, display: 'block', mt: 0.5 }}
+                                        sx={{ color: 'warning.main', fontWeight: 700, display: 'block', mt: 0.5 }}
                                     >
                                         ĐANG HỌC
                                     </Typography>
@@ -129,12 +131,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                             </Grid>
                             <Grid size={{ xs: 4 }}>
                                 <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#047857' }}>
+                                    <Typography variant="h4" sx={{ fontWeight: 800, color: 'success.main' }}>
                                         {completedLessonsCount}
                                     </Typography>
                                     <Typography
                                         variant="caption"
-                                        sx={{ color: '#047857', fontWeight: 700, display: 'block', mt: 0.5 }}
+                                        sx={{ color: 'success.main', fontWeight: 700, display: 'block', mt: 0.5 }}
                                     >
                                         HOÀN THÀNH
                                     </Typography>
@@ -148,12 +150,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
             {/* Current Lesson Hero */}
             <Card
                 sx={{
-                    border: '1px solid #e2e8f0',
+                    border: '1px solid',
+                    borderColor: 'divider',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.02)',
                     borderRadius: '16px',
                     mb: 5,
                     overflow: 'hidden',
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)',
+                    background: (theme) =>
+                        theme.palette.mode === 'light'
+                            ? 'linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)'
+                            : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
                 }}
             >
                 <CardContent sx={{ p: 4 }}>
@@ -164,8 +170,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                                     variant="caption"
                                     sx={{
                                         fontWeight: 800,
-                                        color: '#2563eb',
-                                        backgroundColor: '#dbeafe',
+                                        color: (theme) => theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                                        backgroundColor: (theme) => theme.palette.mode === 'light' ? 'rgba(29, 78, 216, 0.08)' : 'rgba(59, 130, 246, 0.15)',
                                         px: 1.5,
                                         py: 0.5,
                                         borderRadius: '6px',
@@ -174,7 +180,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                                 >
                                     BÀI HỌC HIỆN TẠI
                                 </Typography>
-                                <Typography variant="caption" sx={{ fontWeight: 700, color: '#64748b' }}>
+                                <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary' }}>
                                     {currentPhase.title}
                                 </Typography>
                             </Box>
@@ -184,7 +190,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                                 sx={{
                                     fontFamily: 'var(--font-heading)',
                                     fontWeight: 800,
-                                    color: '#0f172a',
+                                    color: 'text.primary',
                                     mb: 1.5,
                                     fontSize: '1.4rem',
                                 }}
@@ -193,30 +199,28 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                             </Typography>
                             <Typography
                                 variant="body2"
-                                sx={{ color: '#475569', mb: 0, lineHeight: 1.6, fontSize: '0.95rem' }}
+                                sx={{ color: 'text.secondary', mb: 0, lineHeight: 1.6, fontSize: '0.95rem' }}
                             >
                                 {currentLesson.description}
                             </Typography>
                         </Grid>
-                        <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex', justifyContent: { md: 'flex-end' } }}>
+                        <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex', justifyContent: { md: 'flex-end' }, alignItems: 'center' }}>
                             <Button
                                 variant="contained"
                                 onClick={handleContinue}
                                 startIcon={<Play className="w-4 h-4 fill-current" />}
                                 endIcon={<ArrowRight className="w-4 h-4" />}
                                 sx={{
-                                    backgroundColor: '#2563eb',
-                                    color: '#ffffff',
+                                    height: '50px',
+                                    backgroundColor: 'primary.main',
+                                    color: 'primary.contrastText',
                                     fontWeight: 700,
                                     px: 3.5,
-                                    py: 1.5,
                                     borderRadius: '10px',
-                                    boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2)',
                                     textTransform: 'none',
                                     fontSize: '0.95rem',
                                     '&:hover': {
-                                        backgroundColor: '#1d4ed8',
-                                        boxShadow: '0 6px 12px -2px rgba(37, 99, 235, 0.3)',
+                                        backgroundColor: 'primary.dark',
                                     },
                                 }}
                             >
@@ -234,14 +238,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                     sx={{
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
-                        color: '#0f172a',
+                        color: 'text.primary',
                         mb: 3,
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.25,
                     }}
                 >
-                    <BookOpen className="w-5 h-5 text-blue-600" />
+                    <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
+                        <BookOpen className="w-5 h-5" />
+                    </Box>
                     {activeLessons.length > 0 ? 'Bài học đang học' : 'Bài học gợi ý tiếp theo'}
                 </Typography>
 
