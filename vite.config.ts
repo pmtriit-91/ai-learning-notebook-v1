@@ -5,6 +5,7 @@ import babel from 'vite-plugin-babel';
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
+    base: command === 'build' ? '/ai-learning-notebook-v1/' : '/',
     plugins: [
         react(),
         command === 'serve' &&

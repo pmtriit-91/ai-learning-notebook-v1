@@ -11,7 +11,7 @@ function App() {
   const progress = useLessonProgress();
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route element={<Layout progress={progress} />}>
           <Route path="/" element={<Dashboard progress={progress} />} />
