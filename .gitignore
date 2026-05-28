@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Agent skills & configs (Tài sản riêng trên local)
+.agents/
+.agent/
