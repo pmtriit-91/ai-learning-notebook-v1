@@ -1,16 +1,8 @@
-import React, { createContext, useContext, useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { getDesignTokens } from "./theme";
-
-// Context để điều khiển chế độ Light/Dark Mode
-export const ColorModeContext = createContext({
-  toggleColorMode: () => {},
-  mode: "light" as "light" | "dark",
-});
-
-// Custom hook để sử dụng trong các component
-export const useColorMode = () => useContext(ColorModeContext);
+import { ColorModeContext } from "./ColorModeContext";
 
 interface ColorModeProviderProps {
   children: React.ReactNode;
