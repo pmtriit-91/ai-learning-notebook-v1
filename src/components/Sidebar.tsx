@@ -2,7 +2,11 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, IconButton } from "@mui/material";
 import { DarkMode, LightMode } from "@mui/icons-material";
-import { LayoutDashboard, Milestone, Terminal, BookOpen, GraduationCap } from "lucide-react";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AltRouteIcon from "@mui/icons-material/AltRoute";
+import TerminalIcon from "@mui/icons-material/Terminal";
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { ProgressBar } from "./ProgressBar";
 import { useColorMode } from "../theme/ColorModeContext";
 
@@ -22,10 +26,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { mode, toggleColorMode } = useColorMode();
   
   const menuItems = [
-    { text: "Dashboard", path: "/", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { text: "Roadmap", path: "/roadmap", icon: <Milestone className="w-5 h-5" /> },
-    { text: "Prompt Playbook", path: "/playbook", icon: <Terminal className="w-5 h-5" /> },
-    { text: "Learning Log", path: "/log", icon: <BookOpen className="w-5 h-5" /> },
+    { text: "Dashboard", path: "/", icon: <DashboardIcon /> },
+    { text: "Roadmap học tập", path: "/roadmap", icon: <AltRouteIcon /> },
+    { text: "Prompt Playbook", path: "/playbook", icon: <TerminalIcon /> },
+    { text: "Nhật ký học tập", path: "/log", icon: <HistoryEduIcon /> },
   ];
 
   return (
@@ -35,29 +39,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "background.paper",
+        backgroundColor: "#1e293b", // Slate 800
+        color: "#f8fafc",
         borderRight: "1px solid",
-        borderColor: "divider",
-        padding: "24px 16px",
+        borderColor: "#334155",
       }}
     >
       {/* Brand Logo, Name & Theme Switcher */}
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 4, px: 1 }}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", p: 3 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 40,
-              height: 40,
-              borderRadius: "10px",
-              backgroundColor: "primary.main",
-              color: "#ffffff",
-            }}
-          >
-            <GraduationCap className="w-6 h-6" />
-          </Box>
+          <AutoAwesomeIcon sx={{ color: "#10b981", fontSize: "2rem" }} />
           <Box>
             <Typography
               variant="h6"
@@ -66,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 fontWeight: 800,
                 fontSize: "1.15rem",
                 lineHeight: 1.2,
-                color: "text.primary",
+                color: "#f8fafc",
               }}
             >
               AI Learning
@@ -74,13 +65,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <Typography
               variant="caption"
               sx={{
-                fontWeight: 700,
-                color: "text.secondary",
-                letterSpacing: "0.5px",
+                fontWeight: 500,
+                color: "#94a3b8",
                 display: "block",
               }}
             >
-              NOTEBOOK
+              Personal Notebook
             </Typography>
           </Box>
         </Box>
@@ -92,87 +82,109 @@ export const Sidebar: React.FC<SidebarProps> = ({
           size="small"
           sx={{
             border: "1px solid",
-            borderColor: "divider",
+            borderColor: "#334155",
             borderRadius: "8px",
             p: "6px",
-            backgroundColor: "background.default",
+            backgroundColor: "#0f172a",
+            color: "#cbd5e1",
             "&:hover": {
-              backgroundColor: "action.hover",
+              backgroundColor: "rgba(255, 255, 255, 0.04)",
+              color: "#f8fafc",
             }
           }}
         >
-          {mode === "light" ? <DarkMode sx={{ fontSize: "1.1rem", color: "text.secondary" }} /> : <LightMode sx={{ fontSize: "1.1rem", color: "warning.main" }} />}
+          {mode === "light" ? (
+            <DarkMode sx={{ fontSize: "1.1rem", color: "#94a3b8" }} />
+          ) : (
+            <LightMode sx={{ fontSize: "1.1rem", color: "warning.main" }} />
+          )}
         </IconButton>
       </Box>
 
+      <Divider sx={{ backgroundColor: "#334155" }} />
+
       {/* Menu List */}
-      <List sx={{ flexGrow: 1, padding: 0 }}>
+      <List sx={{ flexGrow: 1, px: 2, py: 3 }}>
         {menuItems.map((item) => (
-          <ListItem key={item.text} disablePadding sx={{ mb: 0.5 }}>
+          <ListItem key={item.text} disablePadding sx={{ mb: 1 }}>
             <ListItemButton
               component={NavLink}
               to={item.path}
               onClick={onClose}
               sx={{
                 borderRadius: "8px",
-                padding: "10px 12px",
-                color: "text.secondary",
+                px: 2.5,
+                py: 1.5,
+                color: "#cbd5e1",
                 transition: "all 0.2s",
+                borderLeft: "4px solid transparent",
                 "&.active": {
-                  backgroundColor: mode === "light" ? "rgba(29, 78, 216, 0.08)" : "rgba(59, 130, 246, 0.15)",
-                  color: mode === "light" ? "primary.main" : "primary.light",
+                  backgroundColor: "rgba(16, 185, 129, 0.15)",
+                  color: "#10b981",
                   fontWeight: 700,
+                  borderLeft: "4px solid #10b981",
                   "& .MuiListItemIcon-root": {
-                    color: mode === "light" ? "primary.main" : "primary.light",
+                    color: "#10b981",
                   },
                 },
                 "&:hover:not(.active)": {
-                  backgroundColor: "action.hover",
-                  color: "text.primary",
+                  backgroundColor: "rgba(255, 255, 255, 0.04)",
+                  color: "#f8fafc",
+                  "& .MuiListItemIcon-root": {
+                    color: "#f8fafc",
+                  },
                 },
               }}
             >
               <ListItemIcon
                 sx={{
                   minWidth: 40,
-                  color: "inherit",
+                  color: "#94a3b8",
                 }}
               >
                 {item.icon}
               </ListItemIcon>
               <ListItemText
-                primary={<Typography sx={{ fontSize: "0.95rem", fontWeight: "inherit" }}>{item.text}</Typography>}
+                primary={
+                  <Typography sx={{ fontSize: "0.95rem", fontWeight: "inherit" }}>
+                    {item.text}
+                  </Typography>
+                }
               />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
 
-      <Divider sx={{ my: 3 }} />
-
       {/* Progress Footer */}
-      <Box sx={{ px: 1 }}>
+      <Box sx={{ p: 3, backgroundColor: "#0f172a", borderTop: "1px solid #334155" }}>
         <Typography
           variant="subtitle2"
           sx={{
-            fontWeight: 700,
-            color: "text.primary",
-            mb: 0.5,
+            fontWeight: 600,
+            color: "#94a3b8",
+            mb: 1,
           }}
         >
-          Tiến Độ Lộ Trình
+          Tổng tiến độ học tập
         </Typography>
-        <Typography
-          variant="caption"
-          sx={{
-            color: "text.secondary",
-            display: "block",
-            mb: 2,
-          }}
-        >
-          Hoàn thành {completedLessonsCount} / {totalLessons} bài học
-        </Typography>
-        <ProgressBar value={overallProgress} />
+        <ProgressBar
+          value={overallProgress}
+          completedCount={completedLessonsCount}
+          totalCount={totalLessons}
+        />
+        <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
+          <Typography
+            variant="caption"
+            sx={{
+              color: "#64748b",
+              fontWeight: 500,
+              textAlign: "center",
+            }}
+          >
+            V1 Static personal notebook
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

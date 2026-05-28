@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import { Milestone } from 'lucide-react';
+import AltRouteIcon from '@mui/icons-material/AltRoute';
 import type { UseLessonProgressType } from '../hooks/useLessonProgress';
 import { phases } from '../data/roadmap';
 import { lessons } from '../data/lessons';
@@ -23,14 +23,14 @@ export const Roadmap: React.FC<RoadmapProps> = ({ progress }) => {
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
                         color: 'text.primary',
-                        mb: 3,
+                        mb: 1.5,
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.25,
                     }}
                 >
-                    <Box sx={{ color: 'primary.main' }}>
-                        <Milestone className="w-8 h-8" />
+                    <Box sx={{ color: 'primary.main', display: 'flex' }}>
+                        <AltRouteIcon sx={{ fontSize: '2.5rem' }} />
                     </Box>
                     Lộ trình học AI
                 </Typography>

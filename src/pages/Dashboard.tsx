@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Card, CardContent, Button, Paper, Grid } from '@mui/material';
-import { Play, ArrowRight, BookOpen } from 'lucide-react';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import type { UseLessonProgressType } from '../hooks/useLessonProgress';
 import { lessons } from '../data/lessons';
 import { phases } from '../data/roadmap';
@@ -208,8 +210,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                             <Button
                                 variant="contained"
                                 onClick={handleContinue}
-                                startIcon={<Play className="w-4 h-4 fill-current" />}
-                                endIcon={<ArrowRight className="w-4 h-4" />}
+                                startIcon={<PlayArrowIcon />}
+                                endIcon={<ArrowForwardIcon />}
                                 sx={{
                                     height: '50px',
                                     backgroundColor: 'primary.main',
@@ -246,7 +248,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                     }}
                 >
                     <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
-                        <BookOpen className="w-5 h-5" />
+                        <MenuBookIcon />
                     </Box>
                     {activeLessons.length > 0 ? 'Bài học đang học' : 'Bài học gợi ý tiếp theo'}
                 </Typography>

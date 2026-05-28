@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Typography, Box, Divider, List, ListItem, ListItemButton, Grid } from '@mui/material';
-import { ChevronRight } from 'lucide-react';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import type { Phase, Lesson, LessonStatus } from '../types/lesson';
 import { ProgressBar } from './ProgressBar';
 import { StatusBadge } from './StatusBadge';
@@ -143,7 +143,7 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({
                                                 }}
                                             >
                                                 <StatusBadge status={status} />
-                                                <ChevronRight className="w-5 h-5 text-slate-400 hidden sm:block" />
+                                                <ChevronRightIcon sx={{ color: 'text.disabled', display: { xs: 'none', sm: 'block' } }} />
                                             </Grid>
                                         </Grid>
                                     </ListItemButton>

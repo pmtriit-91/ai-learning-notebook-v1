@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Typography, Tabs, Tab, Paper, Stack } from '@mui/material';
-import { Terminal, BugPlay, RefreshCw, Eye, ShieldAlert, FileText } from 'lucide-react';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import BugReportIcon from '@mui/icons-material/BugReport';
+import CodeIcon from '@mui/icons-material/Code';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import SecurityIcon from '@mui/icons-material/Security';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { PromptBlock } from '../components/PromptBlock';
 
 interface PlaybookPrompt {
@@ -18,11 +23,11 @@ export const PromptPlaybook: React.FC = () => {
     };
 
     const categories = [
-        { label: 'Debug', icon: <BugPlay className="w-4 h-4" /> },
-        { label: 'Refactor', icon: <RefreshCw className="w-4 h-4" /> },
-        { label: 'Review', icon: <Eye className="w-4 h-4" /> },
-        { label: 'Anti-hallucination', icon: <ShieldAlert className="w-4 h-4" /> },
-        { label: 'Agent Report', icon: <FileText className="w-4 h-4" /> },
+        { label: 'Debug', icon: <BugReportIcon /> },
+        { label: 'Refactor', icon: <CodeIcon /> },
+        { label: 'Review', icon: <RateReviewIcon /> },
+        { label: 'Anti-hallucination', icon: <SecurityIcon /> },
+        { label: 'Agent Report', icon: <AssignmentIcon /> },
     ];
 
     const playbookData: Record<number, PlaybookPrompt[]> = {
@@ -76,7 +81,7 @@ Yêu cầu:
 4. Giữ nguyên hành vi nghiệp vụ (business logic) và các sự kiện (event handlers) hiện có.`,
             },
             {
-                title: 'Prompt Tối Ưu Hiệu Năng (Performance Optimization)',
+                title: 'Prompt Tối Ưu Hi năng (Performance Optimization)',
                 description: 'Yêu cầu AI phân tích và áp dụng các kỹ thuật memoization hoặc tối ưu thuật toán.',
                 prompt: `Đoạn code sau đang gặp vấn đề về hiệu năng (bị re-render nhiều lần hoặc xử lý mảng quá chậm):
 \`\`\`[ngôn ngữ]
@@ -152,7 +157,7 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                     }}
                 >
                     <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
-                        <Terminal className="w-8 h-8" />
+                        <TerminalIcon sx={{ fontSize: '2.5rem' }} />
                     </Box>
                     Prompt Playbook
                 </Typography>

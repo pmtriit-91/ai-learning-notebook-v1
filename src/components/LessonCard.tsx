@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
-import { Clock } from "lucide-react";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import type { Lesson, LessonStatus } from "../types/lesson";
 import { StatusBadge } from "./StatusBadge";
 import { useColorMode } from "../theme/ColorModeContext";
@@ -138,7 +138,7 @@ export const LessonCard: React.FC<LessonCardProps> = ({ lesson, status }) => {
         {/* Footer (Estimated Time) */}
         {lesson.estimatedMinutes && (
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, color: "text.secondary", mt: "auto", pt: 1.5, borderTop: "1px solid", borderColor: "divider" }}>
-            <Clock className="w-4 h-4 text-slate-400" />
+            <AccessTimeIcon sx={{ fontSize: "1rem", color: "text.disabled" }} />
             <Typography variant="caption" sx={{ fontWeight: 600 }}>
               {lesson.estimatedMinutes} phút học
             </Typography>

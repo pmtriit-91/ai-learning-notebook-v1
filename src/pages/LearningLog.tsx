@@ -13,7 +13,7 @@ import {
     IconButton,
     Grid,
 } from '@mui/material';
-import { BookOpen, Calendar, Trash2, PlusCircle, AlertCircle } from 'lucide-react';
+import { Book, Delete, Edit, CalendarToday } from '@mui/icons-material';
 import { lessons } from '../data/lessons';
 import { PromptBlock } from '../components/PromptBlock';
 
@@ -25,6 +25,7 @@ interface LogEntry {
     codebaseConnection: string;
     mistakesAndLessons: string;
     reusablePrompts: string;
+    nextSteps: string; // Thêm trường hành động tiếp theo
 }
 
 export const LearningLog: React.FC = () => {
@@ -33,17 +34,13 @@ export const LearningLog: React.FC = () => {
         return saved ? JSON.parse(saved) : [];
     });
 
-    const [date, setDate] = useState(() => {
-        const today = new Date();
-        return today.toISOString().split('T')[0];
-    });
+    const date = new Date().toISOString().split('T')[0];
     const [lessonId, setLessonId] = useState('');
     const [whatLearned, setWhatLearned] = useState('');
     const [codebaseConnection, setCodebaseConnection] = useState('');
     const [mistakesAndLessons, setMistakesAndLessons] = useState('');
     const [reusablePrompts, setReusablePrompts] = useState('');
-
-    const [showForm, setShowForm] = useState(false);
+    const [nextSteps, setNextSteps] = useState(''); // State cho bước đi tiếp theo
 
     useEffect(() => {
         localStorage.setItem('ai_learning_logs', JSON.stringify(logs));
@@ -65,6 +62,7 @@ export const LearningLog: React.FC = () => {
             codebaseConnection,
             mistakesAndLessons,
             reusablePrompts,
+            nextSteps,
         };
 
         setLogs((prev) => [newLog, ...prev]);
@@ -75,7 +73,7 @@ export const LearningLog: React.FC = () => {
         setCodebaseConnection('');
         setMistakesAndLessons('');
         setReusablePrompts('');
-        setShowForm(false);
+        setNextSteps('');
     };
 
     const handleDelete = (id: string) => {
@@ -92,405 +90,370 @@ export const LearningLog: React.FC = () => {
     return (
         <Box>
             {/* Header Page */}
-            <Box
-                sx={{
-                    mb: 4,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    flexWrap: 'wrap',
-                    gap: 2,
-                }}
-            >
-                <Box>
+            <Box sx={{ mb: 4 }}>
+                <Typography
+                    variant="h3"
+                    sx={{
+                        fontFamily: 'var(--font-heading)',
+                        fontWeight: 800,
+                        color: 'text.primary',
+                        mb: 1.5,
+                        fontSize: { xs: '2rem', md: '2.5rem' },
+                    }}
+                >
+                    Nhật ký học tập
+                </Typography>
+                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.05rem' }}>
+                    Hệ thống hóa bài học rút ra, liên hệ thực tế dự án của bạn và lưu trữ các bài học đắt giá.
+                </Typography>
+            </Box>
+
+            {/* Layout 2 cột dạng Grid */}
+            <Grid container spacing={4}>
+                {/* Cột trái: Form viết nhật ký */}
+                <Grid size={{ xs: 12, md: 5 }}>
+                    <Card
+                        sx={{
+                            border: '1px solid',
+                            borderColor: 'divider',
+                            boxShadow: 'none',
+                            borderRadius: '16px',
+                            backgroundColor: 'background.paper',
+                        }}
+                    >
+                        <CardContent sx={{ p: 3 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+                                <Edit sx={{ color: 'primary.main', fontSize: '1.25rem' }} />
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontFamily: 'var(--font-heading)',
+                                        fontWeight: 800,
+                                        color: 'text.primary',
+                                    }}
+                                >
+                                    Viết nhật ký hôm nay
+                                </Typography>
+                            </Box>
+
+                            <Stack component="form" onSubmit={handleSubmit} spacing={2.5}>
+                                {/* Bài học liên quan */}
+                                <TextField
+                                    select
+                                    label="Bài học liên quan"
+                                    value={lessonId}
+                                    onChange={(e) => setLessonId(e.target.value)}
+                                    required
+                                    fullWidth
+                                >
+                                    {lessons.map((lesson) => (
+                                        <MenuItem key={lesson.id} value={lesson.id}>
+                                            Bài {lesson.lessonNumber}: {lesson.title}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
+                                {/* Hôm nay hiểu được gì */}
+                                <TextField
+                                    multiline
+                                    rows={3}
+                                    label="Hôm nay hiểu được gì? *"
+                                    placeholder="Tóm tắt ngắn gọn kiến thức cốt lõi hôm nay..."
+                                    value={whatLearned}
+                                    onChange={(e) => setWhatLearned(e.target.value)}
+                                    required
+                                    fullWidth
+                                />
+
+                                {/* Liên hệ thực tế */}
+                                <TextField
+                                    multiline
+                                    rows={2}
+                                    label="Liên hệ gì với repo/workflow thực tế?"
+                                    placeholder="Áp dụng kiến thức này vào codebase hiện tại của bạn như thế nào?"
+                                    value={codebaseConnection}
+                                    onChange={(e) => setCodebaseConnection(e.target.value)}
+                                    fullWidth
+                                />
+
+                                {/* Sai lầm cũ */}
+                                <TextField
+                                    multiline
+                                    rows={2}
+                                    label="Sai lầm cũ là gì?"
+                                    placeholder="Có lỗi gì xảy ra hoặc bài học kinh nghiệm xương máu nào không?"
+                                    value={mistakesAndLessons}
+                                    onChange={(e) => setMistakesAndLessons(e.target.value)}
+                                    fullWidth
+                                />
+
+                                {/* Prompt dùng lại được */}
+                                <TextField
+                                    multiline
+                                    rows={2}
+                                    label="Prompt nào dùng lại được?"
+                                    placeholder="Dán câu prompt bạn đã viết thành công hôm nay..."
+                                    value={reusablePrompts}
+                                    onChange={(e) => setReusablePrompts(e.target.value)}
+                                    slotProps={{
+                                        htmlInput: { style: { fontFamily: 'var(--font-mono)', fontSize: '0.875rem' } },
+                                    }}
+                                    fullWidth
+                                />
+
+                                {/* Hành động tiếp theo */}
+                                <TextField
+                                    multiline
+                                    rows={2}
+                                    label="Bài tiếp theo / Hành động tiếp theo là gì?"
+                                    placeholder="Bạn định học tiếp bài nào hoặc làm gì tiếp theo?"
+                                    value={nextSteps}
+                                    onChange={(e) => setNextSteps(e.target.value)}
+                                    fullWidth
+                                />
+
+                                {/* Nút lưu */}
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    fullWidth
+                                    sx={{
+                                        textTransform: 'none',
+                                        fontWeight: 700,
+                                        borderRadius: '10px',
+                                        backgroundColor: 'primary.main',
+                                        color: 'primary.contrastText',
+                                        py: 1.5,
+                                        fontSize: '0.95rem',
+                                        '&:hover': { backgroundColor: 'primary.dark' },
+                                    }}
+                                >
+                                    Lưu nhật ký
+                                </Button>
+                            </Stack>
+                        </CardContent>
+                    </Card>
+                </Grid>
+
+                {/* Cột phải: Danh sách nhật ký đã ghi chép */}
+                <Grid size={{ xs: 12, md: 7 }}>
                     <Typography
-                        variant="h3"
+                        variant="h6"
                         sx={{
                             fontFamily: 'var(--font-heading)',
                             fontWeight: 800,
                             color: 'text.primary',
-                            mb: 1.5,
-                            fontSize: { xs: '2rem', md: '2.5rem' },
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1.5,
+                            mb: 3,
                         }}
                     >
-                        <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
-                            <BookOpen className="w-8 h-8" />
-                        </Box>
-                        Nhật ký học tập
-                    </Typography>
-                    <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.05rem' }}>
-                        Lưu giữ và hệ thống hóa kiến thức thực tế thu được trong quá trình code cùng AI.
-                    </Typography>
-                </Box>
-                <Button
-                    variant="contained"
-                    onClick={() => setShowForm(!showForm)}
-                    startIcon={<PlusCircle className="w-4 h-4" />}
-                    sx={{
-                        textTransform: 'none',
-                        fontWeight: 700,
-                        borderRadius: '10px',
-                        backgroundColor: 'primary.main',
-                        color: 'primary.contrastText',
-                        py: 1.25,
-                        px: 2.5,
-                        '&:hover': {
-                            backgroundColor: 'primary.dark',
-                        },
-                    }}
-                >
-                    {showForm ? 'Đóng Form' : 'Viết nhật ký mới'}
-                </Button>
-            </Box>
-
-            {/* Form viết nhật ký */}
-            {showForm && (
-                <Paper
-                    component="form"
-                    onSubmit={handleSubmit}
-                    sx={{
-                        p: 4,
-                        borderRadius: '16px',
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        mb: 4,
-                        backgroundColor: 'background.paper',
-                    }}
-                >
-                    <Typography
-                        variant="h6"
-                        sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'text.primary', mb: 3 }}
-                    >
-                        Ghi chép hôm nay
+                        Nhật ký đã ghi chép ({logs.length})
                     </Typography>
 
-                    <Grid container spacing={3}>
-                        {/* Ngày học */}
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                type="date"
-                                label="Ngày ghi chép"
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                                slotProps={{ inputLabel: { shrink: true } }}
-                                required
-                            />
-                        </Grid>
-
-                        {/* Bài học liên quan */}
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <TextField
-                                fullWidth
-                                select
-                                label="Bài học liên quan"
-                                value={lessonId}
-                                onChange={(e) => setLessonId(e.target.value)}
-                                required
-                            >
-                                {lessons.map((lesson) => (
-                                    <MenuItem key={lesson.id} value={lesson.id}>
-                                        Bài {lesson.lessonNumber}: {lesson.title}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>
-
-                        {/* Đã học được gì */}
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={3}
-                                label="Hôm nay tôi hiểu gì / Học được gì? *"
-                                placeholder="Tóm tắt ngắn gọn kiến thức cốt lõi hôm nay..."
-                                value={whatLearned}
-                                onChange={(e) => setWhatLearned(e.target.value)}
-                                required
-                            />
-                        </Grid>
-
-                        {/* Liên hệ codebase */}
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={2}
-                                label="Liên hệ thực tế codebase / workflow?"
-                                placeholder="Áp dụng kiến thức này vào codebase hiện tại của bạn như thế nào?"
-                                value={codebaseConnection}
-                                onChange={(e) => setCodebaseConnection(e.target.value)}
-                            />
-                        </Grid>
-
-                        {/* Sai lầm rút ra */}
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={2}
-                                label="Sai lầm cũ / Kinh nghiệm rút ra?"
-                                placeholder="Có lỗi gì xảy ra hoặc bài học kinh nghiệm xương máu nào không?"
-                                value={mistakesAndLessons}
-                                onChange={(e) => setMistakesAndLessons(e.target.value)}
-                            />
-                        </Grid>
-
-                        {/* Prompt hữu dụng */}
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                multiline
-                                rows={2}
-                                label="Prompt hữu dụng dùng lại được?"
-                                placeholder="Dán câu prompt bạn đã viết thành công hôm nay..."
-                                value={reusablePrompts}
-                                onChange={(e) => setReusablePrompts(e.target.value)}
-                                slotProps={{
-                                    htmlInput: { style: { fontFamily: 'var(--font-mono)', fontSize: '0.875rem' } },
-                                }}
-                            />
-                        </Grid>
-
-                        {/* Nút bấm */}
-                        <Grid size={{ xs: 12 }} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 1 }}>
-                            <Button
-                                variant="outlined"
-                                onClick={() => setShowForm(false)}
-                                sx={{ textTransform: 'none', fontWeight: 700, borderRadius: '8px', px: 3, py: 1 }}
-                            >
-                                Hủy bỏ
-                            </Button>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                sx={{
-                                    textTransform: 'none',
-                                    fontWeight: 700,
-                                    borderRadius: '8px',
-                                    backgroundColor: 'primary.main',
-                                    color: 'primary.contrastText',
-                                    px: 4,
-                                    py: 1,
-                                    '&:hover': { backgroundColor: 'primary.dark' },
-                                }}
-                            >
-                                Lưu Nhật Ký
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            )}
-
-            {/* Hiển thị danh sách nhật ký đã lưu */}
-            <Box>
-                {logs.length === 0 ? (
-                    <Paper
-                        sx={{
-                            p: 6,
-                            textAlign: 'center',
-                            borderRadius: '16px',
-                            border: '1px solid',
-                            borderColor: 'divider',
-                            backgroundColor: 'background.paper',
-                        }}
-                    >
-                        <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-                        <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.secondary', mb: 1 }}>
-                            Chưa có nhật ký học tập nào
-                        </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
-                            Hãy ghi lại những đúc kết của bạn sau mỗi bài học để hệ thống hóa kiến thức tốt hơn.
-                        </Typography>
-                        <Button
-                            variant="outlined"
-                            onClick={() => setShowForm(true)}
-                            startIcon={<PlusCircle className="w-4 h-4" />}
-                            sx={{ textTransform: 'none', fontWeight: 700, borderRadius: '8px' }}
+                    {logs.length === 0 ? (
+                        <Paper
+                            sx={{
+                                p: 6,
+                                textAlign: 'center',
+                                borderRadius: '16px',
+                                border: '1px dotted',
+                                borderColor: 'divider',
+                                backgroundColor: 'background.paper',
+                            }}
                         >
-                            Tạo ghi chép đầu tiên
-                        </Button>
-                    </Paper>
-                ) : (
-                    <Stack spacing={3}>
-                        {logs.map((log) => (
-                            <Card
-                                key={log.id}
-                                sx={{
-                                    border: '1px solid',
-                                    borderColor: 'divider',
-                                    boxShadow: '0 1px 3px rgba(0,0,0,0.01)',
-                                    borderRadius: '14px',
-                                    overflow: 'hidden',
-                                    backgroundColor: 'background.paper',
-                                }}
-                            >
-                                <Box
+                            <Book sx={{ fontSize: '3rem', color: 'text.disabled', mb: 2 }} />
+                            <Typography variant="h6" sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
+                                Chưa có nhật ký nào được ghi lại
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'text.secondary', maxWidth: '400px', mx: 'auto' }}>
+                                Viết nhật ký học tập giúp bạn lưu trữ kinh nghiệm thực tế, đúc kết các prompt tốt và
+                                tránh lặp lại các lỗi sai khi code với AI.
+                            </Typography>
+                        </Paper>
+                    ) : (
+                        <Stack spacing={3}>
+                            {logs.map((log) => (
+                                <Card
+                                    key={log.id}
                                     sx={{
-                                        px: 3,
-                                        py: 2,
-                                        backgroundColor: 'background.default',
-                                        borderBottom: '1px solid',
-                                        borderBottomColor: 'divider',
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        flexWrap: 'wrap',
-                                        gap: 2,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        boxShadow: 'none',
+                                        borderRadius: '16px',
+                                        backgroundColor: 'background.paper',
                                     }}
                                 >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
-                                        <Calendar className="w-4 h-4 text-slate-500" />
-                                        <Typography
-                                            variant="subtitle2"
-                                            sx={{ fontWeight: 700, color: 'text.secondary' }}
-                                        >
-                                            {log.date}
-                                        </Typography>
-                                        <Divider
-                                            orientation="vertical"
-                                            flexItem
-                                            sx={{ mx: 0.5, display: { xs: 'none', sm: 'block' } }}
-                                        />
-                                        <Typography
-                                            variant="subtitle2"
-                                            sx={{
-                                                fontWeight: 800,
-                                                color: 'primary.main',
-                                                fontFamily: 'var(--font-heading)',
-                                            }}
-                                        >
-                                            {getLessonTitle(log.lessonId)}
-                                        </Typography>
-                                    </Box>
-                                    <IconButton
-                                        size="small"
-                                        onClick={() => handleDelete(log.id)}
+                                    {/* Header của từng ghi chép */}
+                                    <Box
                                         sx={{
-                                            color: 'text.disabled',
-                                            '&:hover': {
-                                                color: 'error.main',
-                                                backgroundColor: 'error.light',
-                                            },
+                                            px: 3,
+                                            py: 2,
+                                            borderBottom: '1px solid',
+                                            borderColor: 'divider',
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
                                         }}
                                     >
-                                        <Trash2 className="w-4 h-4" />
-                                    </IconButton>
-                                </Box>
-                                <CardContent sx={{ p: 3 }}>
-                                    <Stack spacing={2.5}>
-                                        {/* Học được gì */}
                                         <Box>
                                             <Typography
                                                 variant="caption"
                                                 sx={{
-                                                    fontWeight: 700,
+                                                    fontWeight: 800,
                                                     color: 'primary.main',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.5px',
                                                     display: 'block',
                                                     mb: 0.5,
-                                                    fontSize: '0.75rem',
-                                                    letterSpacing: '0.5px',
                                                 }}
                                             >
-                                                HỌC ĐƯỢC GÌ
+                                                LIÊN QUAN: {getLessonTitle(log.lessonId)}
                                             </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                sx={{ color: 'text.primary', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                    color: 'text.secondary',
+                                                }}
                                             >
-                                                {log.whatLearned}
-                                            </Typography>
-                                        </Box>
-
-                                        {/* Liên hệ codebase */}
-                                        {log.codebaseConnection && (
-                                            <Box>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 700,
-                                                        color: 'text.secondary',
-                                                        display: 'block',
-                                                        mb: 0.5,
-                                                        fontSize: '0.75rem',
-                                                        letterSpacing: '0.5px',
-                                                    }}
-                                                >
-                                                    LIÊN HỆ THỰC TẾ
-                                                </Typography>
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{
-                                                        color: 'text.secondary',
-                                                        lineHeight: 1.6,
-                                                        fontSize: '0.925rem',
-                                                    }}
-                                                >
-                                                    {log.codebaseConnection}
+                                                <CalendarToday sx={{ fontSize: '0.85rem' }} />
+                                                <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                                    Ngày ghi: {log.date.split('-').reverse().join('/')}
                                                 </Typography>
                                             </Box>
-                                        )}
+                                        </Box>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => handleDelete(log.id)}
+                                            sx={{
+                                                color: 'error.main',
+                                                '&:hover': {
+                                                    backgroundColor: 'error.light',
+                                                    opacity: 0.15,
+                                                },
+                                            }}
+                                        >
+                                            <Delete sx={{ fontSize: '1.25rem' }} />
+                                        </IconButton>
+                                    </Box>
 
-                                        {/* Sai lầm / Bài học */}
-                                        {log.mistakesAndLessons && (
+                                    <CardContent sx={{ p: 3 }}>
+                                        <Stack spacing={2.5}>
+                                            {/* Nội dung chính: Hôm nay hiểu được gì */}
                                             <Box>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 700,
-                                                        color: 'warning.main',
-                                                        display: 'block',
-                                                        mb: 0.5,
-                                                        fontSize: '0.75rem',
-                                                        letterSpacing: '0.5px',
-                                                    }}
-                                                >
-                                                    SAI LẦM & BÀI HỌC
-                                                </Typography>
                                                 <Typography
                                                     variant="subtitle1"
                                                     sx={{
-                                                        fontStyle: 'italic',
-                                                        color: 'text.secondary',
-                                                        mb: 2,
-                                                        fontSize: '0.925rem',
+                                                        fontWeight: 800,
+                                                        color: 'text.primary',
                                                         lineHeight: 1.5,
                                                     }}
                                                 >
-                                                    "{log.mistakesAndLessons}"
+                                                    {log.whatLearned}
                                                 </Typography>
                                             </Box>
-                                        )}
 
-                                        {/* Prompt hữu dụng */}
-                                        {log.reusablePrompts && (
-                                            <Box>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 700,
-                                                        color: 'text.secondary',
-                                                        display: 'block',
-                                                        mb: 0.5,
-                                                        fontSize: '0.75rem',
-                                                        letterSpacing: '0.5px',
-                                                    }}
-                                                >
-                                                    PROMPT HỮU DỤNG
-                                                </Typography>
-                                                <PromptBlock prompt={log.reusablePrompts} />
-                                            </Box>
-                                        )}
-                                    </Stack>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </Stack>
-                )}
-            </Box>
+                                            {(log.codebaseConnection || log.mistakesAndLessons) && (
+                                                <>
+                                                    <Divider />
+                                                    <Grid container spacing={2}>
+                                                        {/* Liên hệ thực tế */}
+                                                        {log.codebaseConnection && (
+                                                            <Grid size={{ xs: 12, sm: 6 }}>
+                                                                <Typography
+                                                                    variant="caption"
+                                                                    sx={{
+                                                                        fontWeight: 800,
+                                                                        color: 'text.secondary',
+                                                                        display: 'block',
+                                                                        mb: 0.5,
+                                                                    }}
+                                                                >
+                                                                    Liên hệ thực tế repo:
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    sx={{ color: 'text.primary', lineHeight: 1.6 }}
+                                                                >
+                                                                    {log.codebaseConnection}
+                                                                </Typography>
+                                                            </Grid>
+                                                        )}
+
+                                                        {/* Sai lầm cũ */}
+                                                        {log.mistakesAndLessons && (
+                                                            <Grid size={{ xs: 12, sm: 6 }}>
+                                                                <Typography
+                                                                    variant="caption"
+                                                                    sx={{
+                                                                        fontWeight: 800,
+                                                                        color: 'text.secondary',
+                                                                        display: 'block',
+                                                                        mb: 0.5,
+                                                                    }}
+                                                                >
+                                                                    Sai lầm rút kinh nghiệm:
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    sx={{ color: 'text.primary', lineHeight: 1.6 }}
+                                                                >
+                                                                    {log.mistakesAndLessons}
+                                                                </Typography>
+                                                            </Grid>
+                                                        )}
+                                                    </Grid>
+                                                </>
+                                            )}
+
+                                            {/* Prompt dùng lại được */}
+                                            {log.reusablePrompts && (
+                                                <Box sx={{ mt: 1 }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 800,
+                                                            color: 'text.secondary',
+                                                            display: 'block',
+                                                            mb: 0.5,
+                                                        }}
+                                                    >
+                                                        Prompt dùng lại được:
+                                                    </Typography>
+                                                    <PromptBlock prompt={log.reusablePrompts} />
+                                                </Box>
+                                            )}
+
+                                            {/* Bước đi tiếp theo */}
+                                            {log.nextSteps && (
+                                                <Box sx={{ mt: 1 }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 800,
+                                                            color: 'text.secondary',
+                                                            display: 'block',
+                                                            mb: 0.5,
+                                                        }}
+                                                    >
+                                                        Bước đi / Bài học tiếp theo:
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{ color: 'text.primary', fontWeight: 600 }}
+                                                    >
+                                                        {log.nextSteps}
+                                                    </Typography>
+                                                </Box>
+                                            )}
+                                        </Stack>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </Stack>
+                    )}
+                </Grid>
+            </Grid>
         </Box>
     );
 };

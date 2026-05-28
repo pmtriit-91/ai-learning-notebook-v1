@@ -16,7 +16,13 @@ import {
     Divider,
     Grid,
 } from '@mui/material';
-import { ArrowLeft, ArrowRight, CheckCircle2, Play, Circle, ExternalLink, Clock } from 'lucide-react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import LaunchIcon from '@mui/icons-material/Launch';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import type { UseLessonProgressType } from '../hooks/useLessonProgress';
 import { lessons } from '../data/lessons';
 import { phases } from '../data/roadmap';
@@ -114,7 +120,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                 </Breadcrumbs>
 
                 <Button
-                    startIcon={<ArrowLeft className="w-4 h-4" />}
+                    startIcon={<ArrowBackIcon />}
                     onClick={() => navigate('/roadmap')}
                     sx={{
                         textTransform: 'none',
@@ -230,7 +236,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                         variant={status === 'completed' ? 'contained' : 'outlined'}
                                         color="success"
                                         onClick={() => handleStatusChange('completed')}
-                                        startIcon={<CheckCircle2 className="w-4 h-4" />}
+                                        startIcon={<CheckCircleIcon />}
                                         sx={{
                                             textTransform: 'none',
                                             fontWeight: 700,
@@ -252,7 +258,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                         variant={status === 'learning' ? 'contained' : 'outlined'}
                                         color="warning"
                                         onClick={() => handleStatusChange('learning')}
-                                        startIcon={<Play className="w-4 h-4 fill-current" />}
+                                        startIcon={<PlayArrowIcon />}
                                         sx={{
                                             textTransform: 'none',
                                             fontWeight: 700,
@@ -274,7 +280,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                         variant={status === 'not-started' ? 'contained' : 'outlined'}
                                         color="inherit"
                                         onClick={() => handleStatusChange('not-started')}
-                                        startIcon={<Circle className="w-4 h-4" />}
+                                        startIcon={<RadioButtonUncheckedIcon />}
                                         sx={{
                                             textTransform: 'none',
                                             fontWeight: 700,
@@ -303,7 +309,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                             mt: 2,
                                         }}
                                     >
-                                        <Clock className="w-4 h-4" />
+                                        <AccessTimeIcon sx={{ fontSize: '1.1rem', color: 'text.disabled' }} />
                                         <Typography variant="caption" sx={{ fontWeight: 600 }}>
                                             Thời gian dự kiến: {lesson.estimatedMinutes} phút
                                         </Typography>
@@ -377,8 +383,8 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                         <Stack spacing={2}>
                             {lesson.keyTakeaways.map((takeaway, index) => (
                                 <Box key={index} sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5 }}>
-                                    <Box sx={{ mt: 0.5, color: 'success.main', flexShrink: 0 }}>
-                                        <CheckCircle2 className="w-5 h-5" />
+                                    <Box sx={{ mt: 0.5, color: 'success.main', flexShrink: 0, display: 'flex' }}>
+                                        <CheckCircleIcon sx={{ fontSize: '1.25rem' }} />
                                     </Box>
                                     <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.6 }}>
                                         {takeaway}
@@ -553,7 +559,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                                             }}
                                         >
                                             <span style={{ wordBreak: 'break-all' }}>{ref.title}</span>
-                                            <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
+                                            <LaunchIcon sx={{ fontSize: '0.9rem', flexShrink: 0 }} />
                                         </Link>
                                     </Box>
                                 ))}
@@ -570,7 +576,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                     <Button
                         variant="outlined"
                         onClick={() => navigate(`/lesson/${prevLesson.id}`)}
-                        startIcon={<ArrowLeft className="w-4 h-4" />}
+                        startIcon={<ArrowBackIcon />}
                         sx={{
                             textTransform: 'none',
                             fontWeight: 700,
@@ -602,7 +608,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
                     <Button
                         variant="contained"
                         onClick={() => navigate(`/lesson/${nextLesson.id}`)}
-                        endIcon={<ArrowRight className="w-4 h-4" />}
+                        endIcon={<ArrowForwardIcon />}
                         sx={{
                             textTransform: 'none',
                             fontWeight: 700,

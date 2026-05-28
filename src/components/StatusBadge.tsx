@@ -1,7 +1,9 @@
 import React from "react";
 import { Chip } from "@mui/material";
 import type { LessonStatus } from "../types/lesson";
-import { CheckCircle2, PlayCircle, HelpCircle } from "lucide-react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AutorenewIcon from "@mui/icons-material/Autorenew";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 
 interface StatusBadgeProps {
   status: LessonStatus;
@@ -13,15 +15,13 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = "small"
     case "completed":
       return (
         <Chip
-          icon={<CheckCircle2 className="w-4 h-4" />}
-          label="Completed"
+          icon={<CheckCircleIcon />}
+          label="Đã hoàn thành"
+          color="success"
           size={size}
+          variant="filled"
           sx={{
-            backgroundColor: (theme) => theme.palette.mode === "light" ? "#ecfdf5" : "rgba(16, 185, 129, 0.15)",
-            color: (theme) => theme.palette.mode === "light" ? "#047857" : "#34d399",
             fontWeight: 700,
-            border: "1px solid",
-            borderColor: (theme) => theme.palette.mode === "light" ? "#a7f3d0" : "rgba(16, 185, 129, 0.3)",
             fontSize: size === "small" ? "0.75rem" : "0.875rem",
             "& .MuiChip-icon": { color: "inherit" },
           }}
@@ -30,32 +30,33 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status, size = "small"
     case "learning":
       return (
         <Chip
-          icon={<PlayCircle className="w-4 h-4" />}
-          label="Learning"
+          icon={<AutorenewIcon sx={{ animation: "spin 3s linear infinite" }} />}
+          label="Đang học"
+          color="primary"
           size={size}
+          variant="filled"
           sx={{
-            backgroundColor: (theme) => theme.palette.mode === "light" ? "#fffbeb" : "rgba(245, 158, 11, 0.15)",
-            color: (theme) => theme.palette.mode === "light" ? "#b45309" : "#fbbf24",
             fontWeight: 700,
-            border: "1px solid",
-            borderColor: (theme) => theme.palette.mode === "light" ? "#fde68a" : "rgba(245, 158, 11, 0.3)",
             fontSize: size === "small" ? "0.75rem" : "0.875rem",
             "& .MuiChip-icon": { color: "inherit" },
+            "@keyframes spin": {
+              "0%": { transform: "rotate(0deg)" },
+              "100%": { transform: "rotate(360deg)" },
+            },
           }}
         />
       );
     default:
       return (
         <Chip
-          icon={<HelpCircle className="w-4 h-4" />}
-          label="Not Started"
+          icon={<RadioButtonUncheckedIcon />}
+          label="Chưa học"
+          variant="outlined"
           size={size}
           sx={{
-            backgroundColor: (theme) => theme.palette.mode === "light" ? "#f8fafc" : "rgba(100, 116, 139, 0.12)",
-            color: (theme) => theme.palette.mode === "light" ? "#64748b" : "#94a3b8",
+            color: "text.secondary",
+            borderColor: "divider",
             fontWeight: 600,
-            border: "1px solid",
-            borderColor: (theme) => theme.palette.mode === "light" ? "#e2e8f0" : "rgba(100, 116, 139, 0.25)",
             fontSize: size === "small" ? "0.75rem" : "0.875rem",
             "& .MuiChip-icon": { color: "inherit" },
           }}
