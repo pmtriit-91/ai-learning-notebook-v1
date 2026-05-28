@@ -144,13 +144,13 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
             {/* Header Page */}
             <Box sx={{ mb: 4 }}>
                 <Typography
-                    variant="h3"
+                    variant="h6"
                     sx={{
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
                         color: 'text.primary',
                         mb: 1.5,
-                        fontSize: { xs: '2rem', md: '2.5rem' },
+                        fontSize: { xs: '2rem', md: '2.2rem' },
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1.5,

@@ -18,15 +18,16 @@ export const Roadmap: React.FC<RoadmapProps> = ({ progress }) => {
             {/* Header Page */}
             <Box sx={{ mb: 4 }}>
                 <Typography
-                    variant="h3"
+                    variant="h6"
                     sx={{
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
                         color: 'text.primary',
                         mb: 1.5,
+                        fontSize: { xs: '2rem', md: '2.2rem' },
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 1.25,
+                        gap: 1.5,
                     }}
                 >
                     <Box sx={{ color: 'primary.main', display: 'flex' }}>
@@ -34,7 +35,7 @@ export const Roadmap: React.FC<RoadmapProps> = ({ progress }) => {
                     </Box>
                     Lộ trình học AI
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#475569', fontSize: '1.05rem' }}>
+                <Typography variant="body1" sx={{ color: 'text.secondary', fontSize: '1.05rem' }}>
                     Lộ trình bài bản gồm 5 Phase với 33 bài học được thiết kế để dẫn dắt bạn trở thành AI Product
                     Builder.
                 </Typography>

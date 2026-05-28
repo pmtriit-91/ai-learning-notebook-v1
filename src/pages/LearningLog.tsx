@@ -13,7 +13,7 @@ import {
     IconButton,
     Grid,
 } from '@mui/material';
-import { Book, Delete, Edit, CalendarToday } from '@mui/icons-material';
+import { Delete, Edit, CalendarToday, AutoStories } from '@mui/icons-material';
 import { lessons } from '../data/lessons';
 import { PromptBlock } from '../components/PromptBlock';
 
@@ -92,13 +92,13 @@ export const LearningLog: React.FC = () => {
             {/* Header Page */}
             <Box sx={{ mb: 4 }}>
                 <Typography
-                    variant="h3"
+                    variant="h6"
                     sx={{
                         fontFamily: 'var(--font-heading)',
                         fontWeight: 800,
                         color: 'text.primary',
                         mb: 1.5,
-                        fontSize: { xs: '2rem', md: '2.5rem' },
+                        fontSize: { xs: '2rem', md: '2.2rem' },
                     }}
                 >
                     Nhật ký học tập
@@ -251,22 +251,24 @@ export const LearningLog: React.FC = () => {
 
                     {logs.length === 0 ? (
                         <Paper
+                            elevation={0}
                             sx={{
-                                p: 6,
+                                p: 5,
                                 textAlign: 'center',
-                                borderRadius: '16px',
-                                border: '1px dotted',
+                                border: '1px dashed',
                                 borderColor: 'divider',
+                                borderRadius: 3,
+                                bgcolor: 'grey.50',
                                 backgroundColor: 'background.paper',
                             }}
                         >
-                            <Book sx={{ fontSize: '3rem', color: 'text.disabled', mb: 2 }} />
-                            <Typography variant="h6" sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
+                            <AutoStories sx={{ fontSize: '3rem', color: 'text.disabled', mb: 2 }} />
+                            <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 700 }}>
                                 Chưa có nhật ký nào được ghi lại
                             </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary', maxWidth: '400px', mx: 'auto' }}>
+                            <Typography variant="body2" color="text.secondary">
                                 Viết nhật ký học tập giúp bạn lưu trữ kinh nghiệm thực tế, đúc kết các prompt tốt và
-                                tránh lặp lại các lỗi sai khi code với AI.
+                                tránh lặp lại các lỗi sai cũ khi code với AI.
                             </Typography>
                         </Paper>
                     ) : (
