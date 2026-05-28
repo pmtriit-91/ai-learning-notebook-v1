@@ -1,0 +1,53 @@
+{
+  "version": "7.0",
+  "name": "V7 IDE Native Policy",
+  "status": "wrapper-ready-spec",
+  "description": "External wrappers can read this file to enforce mode limits without loading markdown into the LLM context.",
+  "modes": {
+    "FAST": {
+      "max_files": 6,
+      "blocked_paths": [
+        "_vendor/",
+        "_archive/",
+        "node_modules/",
+        "dist/",
+        "build/"
+      ],
+      "optional_skills": "blocked",
+      "telemetry": "optional"
+    },
+    "STANDARD": {
+      "max_files": 14,
+      "blocked_paths": [
+        "_vendor/",
+        "_archive/",
+        "node_modules/",
+        "dist/",
+        "build/"
+      ],
+      "optional_skills": "blocked_by_default",
+      "telemetry": "recommended"
+    },
+    "DEEP": {
+      "max_files": 40,
+      "blocked_paths": [
+        "node_modules/",
+        "dist/",
+        "build/"
+      ],
+      "optional_skills": "whitelist_only",
+      "telemetry": "recommended"
+    }
+  },
+  "memory": {
+    "external_agentmemory": "user_controlled_only",
+    "project_memory_first": true,
+    "source_code_over_memory": true
+  },
+  "design": {
+    "adaptive_design_intelligence": true,
+    "style_specific_defaults": false,
+    "ui_library_bias": false,
+    "style_detection_required_for_ui_tasks": true
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "version": "v6",
+  "default_mode": "FAST",
+  "creative_default": "lite",
+  "reviewer_default": "lite",
+  "allow_optional_pack": false,
+  "allowed_optional_skills": [
+    "coding-standards",
+    "verification-loop",
+    "security-review",
+    "deep-research",
+    "frontend-patterns"
+  ],
+  "require_mode_marker": true,
+  "max_bootstrap_files": {
+    "FAST": 4,
+    "STANDARD": 8,
+    "DEEP": 14
+  },
+  "notes": "Project-local config. Keep optional whitelist small. Do not enable optional pack globally.",
+  "intelligence_policy": "preserve_quality_reduce_irrelevant_context",
+  "intelligence_floor": {
+    "FAST": "correct_and_safe",
+    "STANDARD": "balanced_high_quality",
+    "DEEP": "full_required_capability"
+  },
+  "allow_escalation": true,
+  "require_escalation_when_quality_would_drop": true,
+  "optional_policy": "disabled_by_default_enable_only_for_deep_whitelisted_tasks"
+}

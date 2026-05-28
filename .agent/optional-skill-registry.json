@@ -1,0 +1,331 @@
+{
+  "version": "v6-compact-intelligence-preserving",
+  "purpose": "Compact optional skill metadata. Do not read full vendor pack unless user explicitly enables it.",
+  "full_registry_archived_at": "_vendor/optional-skill-registry.full.v4.json",
+  "optional_pack_archived_at": "_vendor/claude-code-ai-os-pack.optional-disabled.zip",
+  "default_policy": "Optional pack is physically disabled from active tree. Use base skills first.",
+  "skills": [
+    {
+      "id": "agent-introspection-debugging",
+      "name": "agent-introspection-debugging",
+      "when": "Use for complex debugging or agent introspection.",
+      "tags": [
+        "debugging"
+      ]
+    },
+    {
+      "id": "ai-regression-testing",
+      "name": "ai-regression-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "api-connector-builder",
+      "name": "api-connector-builder",
+      "when": "Use for API connector/integration design beyond base project patterns.",
+      "tags": [
+        "api"
+      ]
+    },
+    {
+      "id": "coding-standards",
+      "name": "coding-standards",
+      "when": "Use for language/framework coding standards when no base skill covers it.",
+      "tags": [
+        "standards"
+      ]
+    },
+    {
+      "id": "cpp-coding-standards",
+      "name": "cpp-coding-standards",
+      "when": "Use for language/framework coding standards when no base skill covers it.",
+      "tags": [
+        "standards"
+      ]
+    },
+    {
+      "id": "cpp-testing",
+      "name": "cpp-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "csharp-testing",
+      "name": "csharp-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "dashboard-builder",
+      "name": "dashboard-builder",
+      "when": "Use for complex dashboard/analytics UI patterns.",
+      "tags": [
+        "dashboard"
+      ]
+    },
+    {
+      "id": "deep-research",
+      "name": "deep-research",
+      "when": "Use for deep research tasks requiring external/extended investigation.",
+      "tags": [
+        "research"
+      ]
+    },
+    {
+      "id": "defi-amm-security",
+      "name": "defi-amm-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "django-security",
+      "name": "django-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "django-verification",
+      "name": "django-verification",
+      "when": "Use for validation loops and correctness checks.",
+      "tags": [
+        "verification"
+      ]
+    },
+    {
+      "id": "e2e-testing",
+      "name": "e2e-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "ecc-guide",
+      "name": "ecc-guide",
+      "when": "Use only when explicitly whitelisted and base skills are insufficient.",
+      "tags": [
+        "optional"
+      ]
+    },
+    {
+      "id": "flutter-dart-code-review",
+      "name": "flutter-dart-code-review",
+      "when": "Use for deep code review tasks.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "frontend-design-direction",
+      "name": "frontend-design-direction",
+      "when": "Use for deep frontend design/pattern work when base Vercel skills are insufficient.",
+      "tags": [
+        "frontend"
+      ]
+    },
+    {
+      "id": "frontend-patterns",
+      "name": "frontend-patterns",
+      "when": "Use for deep frontend design/pattern work when base Vercel skills are insufficient.",
+      "tags": [
+        "frontend"
+      ]
+    },
+    {
+      "id": "frontend-slides",
+      "name": "frontend-slides",
+      "when": "Use for deep frontend design/pattern work when base Vercel skills are insufficient.",
+      "tags": [
+        "frontend"
+      ]
+    },
+    {
+      "id": "fsharp-testing",
+      "name": "fsharp-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "golang-testing",
+      "name": "golang-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "java-coding-standards",
+      "name": "java-coding-standards",
+      "when": "Use for language/framework coding standards when no base skill covers it.",
+      "tags": [
+        "standards"
+      ]
+    },
+    {
+      "id": "kotlin-testing",
+      "name": "kotlin-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "laravel-security",
+      "name": "laravel-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "laravel-verification",
+      "name": "laravel-verification",
+      "when": "Use for validation loops and correctness checks.",
+      "tags": [
+        "verification"
+      ]
+    },
+    {
+      "id": "liquid-glass-design",
+      "name": "liquid-glass-design",
+      "when": "Use only when explicitly whitelisted and base skills are insufficient.",
+      "tags": [
+        "optional"
+      ]
+    },
+    {
+      "id": "llm-trading-agent-security",
+      "name": "llm-trading-agent-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "market-research",
+      "name": "market-research",
+      "when": "Use for deep research tasks requiring external/extended investigation.",
+      "tags": [
+        "research"
+      ]
+    },
+    {
+      "id": "motion-ui",
+      "name": "motion-ui",
+      "when": "Use only when explicitly whitelisted and base skills are insufficient.",
+      "tags": [
+        "optional"
+      ]
+    },
+    {
+      "id": "perl-security",
+      "name": "perl-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "perl-testing",
+      "name": "perl-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "python-testing",
+      "name": "python-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "quarkus-security",
+      "name": "quarkus-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "quarkus-verification",
+      "name": "quarkus-verification",
+      "when": "Use for validation loops and correctness checks.",
+      "tags": [
+        "verification"
+      ]
+    },
+    {
+      "id": "research-ops",
+      "name": "research-ops",
+      "when": "Use for deep research tasks requiring external/extended investigation.",
+      "tags": [
+        "research"
+      ]
+    },
+    {
+      "id": "rust-testing",
+      "name": "rust-testing",
+      "when": "Use for test strategy, verification, regression, or E2E work.",
+      "tags": [
+        "testing"
+      ]
+    },
+    {
+      "id": "scientific-thinking-literature-review",
+      "name": "scientific-thinking-literature-review",
+      "when": "Use for deep code review tasks.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "security-bounty-hunter",
+      "name": "security-bounty-hunter",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "security-review",
+      "name": "security-review",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.; Use for deep code review tasks.",
+      "tags": [
+        "security",
+        "review"
+      ]
+    },
+    {
+      "id": "security-scan",
+      "name": "security-scan",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    },
+    {
+      "id": "springboot-security",
+      "name": "springboot-security",
+      "when": "Use for explicit security review, auth/data risk, or vulnerability analysis.",
+      "tags": [
+        "security"
+      ]
+    }
+  ],
+  "policy": "Read this registry only in DEEP mode when base skills are insufficient. Do not use optional skills to replace Vercel/base skills for normal frontend work."
+}
