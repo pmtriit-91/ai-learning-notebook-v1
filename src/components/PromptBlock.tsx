@@ -32,12 +32,6 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
         padding: "16px",
         pt: "16px",
         pb: "16px",
-        fontFamily: "var(--font-mono)",
-        fontSize: "0.875rem",
-        lineHeight: 1.6,
-        color: "text.primary",
-        whiteSpace: "pre-wrap",
-        overflowX: "auto",
         my: 2,
       }}
     >
@@ -82,15 +76,18 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
       <Typography
         component="pre"
         sx={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.875rem",
+          fontFamily: "'JetBrains Mono', 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
+          fontSize: "0.85rem",
+          fontWeight: 500,
+          lineHeight: 1.6,
+          color: "text.primary",
           whiteSpace: "pre-wrap",
           wordBreak: "break-word",
           margin: 0,
           pr: "40px", // Chừa khoảng trống cho nút copy
         }}
       >
-        {prompt}
+        <code>{prompt}</code>
       </Typography>
     </Box>
   );

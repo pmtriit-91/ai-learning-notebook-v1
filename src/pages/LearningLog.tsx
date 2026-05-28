@@ -344,7 +344,10 @@ export const LearningLog: React.FC = () => {
                                 >
                                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexWrap: 'wrap' }}>
                                         <Calendar className="w-4 h-4 text-slate-500" />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: 'text.secondary' }}>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{ fontWeight: 700, color: 'text.secondary' }}
+                                        >
                                             {log.date}
                                         </Typography>
                                         <Divider
@@ -420,7 +423,11 @@ export const LearningLog: React.FC = () => {
                                                 </Typography>
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                    sx={{
+                                                        color: 'text.secondary',
+                                                        lineHeight: 1.6,
+                                                        fontSize: '0.925rem',
+                                                    }}
                                                 >
                                                     {log.codebaseConnection}
                                                 </Typography>
@@ -444,10 +451,16 @@ export const LearningLog: React.FC = () => {
                                                     SAI LẦM & BÀI HỌC
                                                 </Typography>
                                                 <Typography
-                                                    variant="body2"
-                                                    sx={{ color: 'text.primary', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                    variant="subtitle1"
+                                                    sx={{
+                                                        fontStyle: 'italic',
+                                                        color: 'text.secondary',
+                                                        mb: 2,
+                                                        fontSize: '0.925rem',
+                                                        lineHeight: 1.5,
+                                                    }}
                                                 >
-                                                    {log.mistakesAndLessons}
+                                                    "{log.mistakesAndLessons}"
                                                 </Typography>
                                             </Box>
                                         )}
