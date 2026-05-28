@@ -1,6 +1,6 @@
 # Professional Git Commit Excellence - Agent Guide
 
-Bản tổng hợp các quy tắc để Agent tự động viết Commit Message chuẩn 10đ cho dự án ExampleProject.
+Bản tổng hợp các quy tắc để Agent viết Commit Message chuẩn 10đ cho dự án (Agent KHÔNG tự động commit trừ khi được người dùng yêu cầu trực tiếp).
 
 ## 1. Cấu trúc bắt buộc (Format)
 
@@ -42,4 +42,4 @@ refactor(ExampleModule): tối ưu kiến trúc & UI/UX Tab 1-2 (100%)
 
 ---
 
-*Agent: Luôn đọc file này trước khi thực thi lệnh commit hoặc khi được yêu cầu báo cáo tiến độ thay đổi.*
+*Agent: Luôn đọc file này trước khi thực thi lệnh commit khi được người dùng yêu cầu.*
