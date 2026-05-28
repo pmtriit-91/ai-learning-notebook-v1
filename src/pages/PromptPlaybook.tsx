@@ -221,16 +221,7 @@ YÊU CẦU BẮT BUỘC ĐỂ TRÁNH HALLUCINATION:
                 <Box sx={{ p: { xs: 2, md: 4 } }}>
                     <Stack spacing={4}>
                         {playbookData[activeTab]?.map((item, idx) => (
-                            <Box
-                                key={idx}
-                                sx={{
-                                    p: 3,
-                                    border: '1px solid',
-                                    borderColor: 'divider',
-                                    borderRadius: '10px',
-                                    backgroundColor: 'background.paper',
-                                }}
-                            >
+                            <Box key={idx}>
                                 <Typography
                                     variant="h6"
                                     sx={{
