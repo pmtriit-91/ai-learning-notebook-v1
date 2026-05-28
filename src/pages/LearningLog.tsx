@@ -13,8 +13,9 @@ import {
     IconButton,
     Grid,
 } from '@mui/material';
-import { BookOpen, Calendar, Trash2, PlusCircle, AlertCircle } from 'lucide-react';
+import { BookOpen, Calendar, Trash2, PlusCircle, AlertCircle, Lightbulb, Code2, ShieldAlert } from 'lucide-react';
 import { lessons } from '../data/lessons';
+import { PromptBlock } from '../components/PromptBlock';
 
 interface LogEntry {
     id: string;
@@ -168,7 +169,7 @@ export const LearningLog: React.FC = () => {
 
                     <Grid container spacing={3}>
                         {/* Ngày học */}
-                        <Grid size={{ xs: 12, sm: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 fullWidth
                                 type="date"
@@ -181,7 +182,7 @@ export const LearningLog: React.FC = () => {
                         </Grid>
 
                         {/* Bài học liên quan */}
-                        <Grid size={{ xs: 12, sm: 6 }}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <TextField
                                 fullWidth
                                 select
@@ -204,7 +205,7 @@ export const LearningLog: React.FC = () => {
                                 fullWidth
                                 multiline
                                 rows={3}
-                                label="Hôm nay tôi hiểu gì / Học được gì?"
+                                label="Hôm nay tôi hiểu gì / Học được gì? *"
                                 placeholder="Tóm tắt ngắn gọn kiến thức cốt lõi hôm nay..."
                                 value={whatLearned}
                                 onChange={(e) => setWhatLearned(e.target.value)}
@@ -370,7 +371,6 @@ export const LearningLog: React.FC = () => {
                                             '&:hover': {
                                                 color: 'error.main',
                                                 backgroundColor: 'error.light',
-                                                opacity: 0.15,
                                             },
                                         }}
                                     >
@@ -378,24 +378,35 @@ export const LearningLog: React.FC = () => {
                                     </IconButton>
                                 </Box>
                                 <CardContent sx={{ p: 3 }}>
-                                    <Stack spacing={2.5}>
+                                    <Stack spacing={2}>
                                         {/* Học được gì */}
-                                        <Box>
-                                            <Typography
-                                                variant="caption"
-                                                sx={{
-                                                    fontWeight: 800,
-                                                    color: 'text.secondary',
-                                                    display: 'block',
-                                                    mb: 0.75,
-                                                    letterSpacing: '0.5px',
-                                                }}
-                                            >
-                                                HÔM NAY TÔI HIỂU GÌ / HỌC ĐƯỢC GÌ
-                </Typography>
+                                        <Box
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: '10px',
+                                                border: '1px solid',
+                                                borderColor: 'divider',
+                                                backgroundColor: 'background.default',
+                                            }}
+                                        >
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                                <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
+                                                    <Lightbulb className="w-4.5 h-4.5" />
+                                                </Box>
+                                                <Typography
+                                                    variant="subtitle2"
+                                                    sx={{
+                                                        fontWeight: 800,
+                                                        color: 'text.primary',
+                                                        fontSize: '0.875rem',
+                                                    }}
+                                                >
+                                                    Hôm nay tôi đã học được gì
+                                                </Typography>
+                                            </Box>
                                             <Typography
                                                 variant="body2"
-                                                sx={{ color: 'text.primary', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                sx={{ color: 'text.primary', lineHeight: 1.7, fontSize: '0.925rem' }}
                                             >
                                                 {log.whatLearned}
                                             </Typography>
@@ -403,22 +414,36 @@ export const LearningLog: React.FC = () => {
 
                                         {/* Liên hệ codebase */}
                                         {log.codebaseConnection && (
-                                            <Box>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 800,
-                                                        color: 'text.secondary',
-                                                        display: 'block',
-                                                        mb: 0.75,
-                                                        letterSpacing: '0.5px',
-                                                    }}
-                                                >
-                                                    LIÊN HỆ THỰC TẾ CODEBASE / WORKFLOW
-                </Typography>
+                                            <Box
+                                                sx={{
+                                                    p: 2,
+                                                    borderRadius: '10px',
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
+                                                    backgroundColor: (theme) =>
+                                                        theme.palette.mode === 'light'
+                                                            ? 'rgba(29, 78, 216, 0.02)'
+                                                            : 'rgba(59, 130, 246, 0.05)',
+                                                }}
+                                            >
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                                    <Box component="span" sx={{ color: 'primary.main', display: 'flex' }}>
+                                                        <Code2 className="w-4.5 h-4.5" />
+                                                    </Box>
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        sx={{
+                                                            fontWeight: 800,
+                                                            color: 'text.primary',
+                                                            fontSize: '0.875rem',
+                                                        }}
+                                                    >
+                                                        Liên hệ thực tế codebase / workflow
+                                                    </Typography>
+                                                </Box>
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                    sx={{ color: 'text.secondary', lineHeight: 1.7, fontSize: '0.925rem' }}
                                                 >
                                                     {log.codebaseConnection}
                                                 </Typography>
@@ -427,22 +452,39 @@ export const LearningLog: React.FC = () => {
 
                                         {/* Sai lầm / Bài học */}
                                         {log.mistakesAndLessons && (
-                                            <Box>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 800,
-                                                        color: 'text.secondary',
-                                                        display: 'block',
-                                                        mb: 0.75,
-                                                        letterSpacing: '0.5px',
-                                                    }}
-                                                >
-                                                    SAI LẦM CŨ / KINH NGHIỆM RÚT RA
-                </Typography>
+                                            <Box
+                                                sx={{
+                                                    p: 2,
+                                                    borderRadius: '10px',
+                                                    border: '1px solid',
+                                                    borderColor: (theme) =>
+                                                        theme.palette.mode === 'light'
+                                                            ? 'rgba(237, 108, 2, 0.2)'
+                                                            : 'rgba(237, 108, 2, 0.3)',
+                                                    backgroundColor: (theme) =>
+                                                        theme.palette.mode === 'light'
+                                                            ? 'rgba(237, 108, 2, 0.03)'
+                                                            : 'rgba(237, 108, 2, 0.06)',
+                                                }}
+                                            >
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                                    <Box component="span" sx={{ color: 'warning.main', display: 'flex' }}>
+                                                        <ShieldAlert className="w-4.5 h-4.5" />
+                                                    </Box>
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        sx={{
+                                                            fontWeight: 800,
+                                                            color: 'warning.main',
+                                                            fontSize: '0.875rem',
+                                                        }}
+                                                    >
+                                                        Sai lầm cũ / Kinh nghiệm rút ra
+                                                    </Typography>
+                                                </Box>
                                                 <Typography
                                                     variant="body2"
-                                                    sx={{ color: 'warning.main', lineHeight: 1.6, fontSize: '0.925rem' }}
+                                                    sx={{ color: 'text.primary', lineHeight: 1.7, fontSize: '0.925rem' }}
                                                 >
                                                     {log.mistakesAndLessons}
                                                 </Typography>
@@ -458,27 +500,14 @@ export const LearningLog: React.FC = () => {
                                                         fontWeight: 800,
                                                         color: 'text.secondary',
                                                         display: 'block',
-                                                        mb: 0.75,
+                                                        mb: 0.5,
+                                                        mt: 1,
                                                         letterSpacing: '0.5px',
                                                     }}
                                                 >
                                                     PROMPT HỮU DỤNG DÙNG LẠI ĐƯỢC
-                </Typography>
-                                                <Box
-                                                    sx={{
-                                                        backgroundColor: 'background.default',
-                                                        border: '1px solid',
-                                                        borderColor: 'divider',
-                                                        borderRadius: '6px',
-                                                        p: 1.5,
-                                                        fontFamily: 'var(--font-mono)',
-                                                        fontSize: '0.825rem',
-                                                        color: 'text.primary',
-                                                        whiteSpace: 'pre-wrap',
-                                                    }}
-                                                >
-                                                    {log.reusablePrompts}
-                                                </Box>
+                                                </Typography>
+                                                <PromptBlock prompt={log.reusablePrompts} />
                                             </Box>
                                         )}
                                     </Stack>
