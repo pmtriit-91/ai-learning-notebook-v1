@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { LessonStatus } from "../../../types/lesson";
 import { lessons } from "../../../data/lessons";
@@ -35,6 +36,10 @@ const useLessonProgressInternal = () => {
 
     // Đồng bộ sang checklist
     setChecklists((prev) => {
+      const current = prev[lessonId] || [];
+      const isAllChecked = current.length === totalItems && current.every(Boolean);
+      const isAllUnchecked = current.length === 0 || current.every(x => !x);
+
       if (status === "completed") {
         return {
           ...prev,
@@ -45,6 +50,24 @@ const useLessonProgressInternal = () => {
           ...prev,
           [lessonId]: new Array(totalItems).fill(false),
         };
+      } else if (status === "learning") {
+        if (isAllChecked) {
+          // Nếu đã hoàn thành nhưng chuyển về learning, bỏ chọn mục cuối
+          const next = new Array(totalItems).fill(true);
+          next[totalItems - 1] = false;
+          return {
+            ...prev,
+            [lessonId]: next,
+          };
+        } else if (isAllUnchecked) {
+          // Nếu chưa học nhưng chuyển sang learning, tích chọn mục đầu
+          const next = new Array(totalItems).fill(false);
+          next[0] = true;
+          return {
+            ...prev,
+            [lessonId]: next,
+          };
+        }
       }
       return prev;
     });
@@ -63,45 +86,31 @@ const useLessonProgressInternal = () => {
   };
 
   const toggleChecklistItem = (lessonId: string, index: number, totalItems: number) => {
-    setChecklists((prev) => {
-      const current = prev[lessonId] ? [...prev[lessonId]] : new Array(totalItems).fill(false);
-      while (current.length < totalItems) {
-        current.push(false);
-      }
-      current[index] = !current[index];
+    const current = checklists[lessonId] ? [...checklists[lessonId]] : new Array(totalItems).fill(false);
+    while (current.length < totalItems) {
+      current.push(false);
+    }
+    current[index] = !current[index];
 
-      // Đồng bộ sang lesson status
-      const checkedCount = current.filter(Boolean).length;
-      setLessonStatuses((prevStatuses) => {
-        const currentStatus = prevStatuses[lessonId] || "not-started";
-        let newStatus = currentStatus;
+    // Đồng bộ sang lesson status dựa trên checklist mới
+    const checkedCount = current.filter(Boolean).length;
+    let newStatus: LessonStatus = "not-started";
 
-        if (checkedCount === totalItems) {
-          newStatus = "completed";
-        } else if (checkedCount > 0) {
-          if (currentStatus === "completed" || currentStatus === "not-started") {
-            newStatus = "learning";
-          }
-        } else if (checkedCount === 0) {
-          if (currentStatus === "learning" || currentStatus === "completed") {
-            newStatus = "not-started";
-          }
-        }
+    if (checkedCount === totalItems) {
+      newStatus = "completed";
+    } else if (checkedCount > 0) {
+      newStatus = "learning";
+    }
 
-        if (newStatus !== currentStatus) {
-          return {
-            ...prevStatuses,
-            [lessonId]: newStatus,
-          };
-        }
-        return prevStatuses;
-      });
+    setChecklists((prev) => ({
+      ...prev,
+      [lessonId]: current,
+    }));
 
-      return {
-        ...prev,
-        [lessonId]: current,
-      };
-    });
+    setLessonStatuses((prev) => ({
+      ...prev,
+      [lessonId]: newStatus,
+    }));
   };
 
   // Tính toán chỉ số thống kê

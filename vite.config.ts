@@ -12,9 +12,7 @@ export default defineConfig(({ command }) => ({
             babel({
                 include: /\.[jt]sx?$/,
                 babelConfig: {
-                    presets: [
-                        ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
-                    ],
+                    presets: [['@babel/preset-typescript', { isTSX: true, allExtensions: true }]],
                     plugins: [
                         [
                             '@locator/babel-jsx/dist',
@@ -27,9 +25,9 @@ export default defineConfig(({ command }) => ({
             }),
         tailwindcss(),
     ],
-    server: {
-        host: '0.0.0.0',
-        port: 5175,
-        strictPort: true,
-    },
+    // server: {
+    //     host: '0.0.0.0',
+    //     port: 5173,
+    //     strictPort: true,
+    // },
 }));

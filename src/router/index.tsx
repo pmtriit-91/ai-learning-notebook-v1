@@ -1,8 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
 
-// Khởi tạo router sử dụng createBrowserRouter thay thế cơ chế Routes lồng nhau cũ
-const router = createBrowserRouter(routes, {
+// Khởi tạo router sử dụng createHashRouter để hỗ trợ reload trang trên GitHub Pages (tránh lỗi 404 tĩnh)
+const router = createHashRouter(routes, {
   basename: import.meta.env.BASE_URL,
 });
 

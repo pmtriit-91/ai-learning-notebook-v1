@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Box, Drawer, IconButton, AppBar, Toolbar, Typography } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { DarkMode, LightMode } from '@mui/icons-material';
@@ -12,6 +12,12 @@ export const Layout: React.FC = () => {
     const progress = useLessonProgress();
     const [mobileOpen, setMobileOpen] = useState(false);
     const { mode, toggleColorMode } = useColorMode();
+    const { pathname } = useLocation();
+
+    // Tự động cuộn đầu trang khi chuyển trang
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -31,7 +37,6 @@ export const Layout: React.FC = () => {
                     boxShadow: 'none',
                     borderBottom: '1px solid',
                     borderColor: 'divider',
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
                 }}
             >
                 <Toolbar sx={{ justifyContent: 'space-between' }}>

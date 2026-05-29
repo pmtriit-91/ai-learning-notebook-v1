@@ -12,12 +12,44 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
     const { mode } = useColorMode();
 
     const handleCopy = async () => {
+        let success = false;
         try {
-            await navigator.clipboard.writeText(prompt);
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                await navigator.clipboard.writeText(prompt);
+                success = true;
+            }
+        } catch (err) {
+            console.warn('navigator.clipboard.writeText failed, trying fallback:', err);
+        }
+
+        if (!success) {
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = prompt;
+                // Đặt các thuộc tính để textarea hoàn toàn vô hình và không gây giật scroll
+                textArea.style.position = 'fixed';
+                textArea.style.top = '0';
+                textArea.style.left = '0';
+                textArea.style.width = '2em';
+                textArea.style.height = '2em';
+                textArea.style.padding = '0';
+                textArea.style.border = 'none';
+                textArea.style.outline = 'none';
+                textArea.style.boxShadow = 'none';
+                textArea.style.background = 'transparent';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                success = document.execCommand('copy');
+                document.body.removeChild(textArea);
+            } catch (err) {
+                console.error('Fallback copy method failed:', err);
+            }
+        }
+
+        if (success) {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
         }
     };
 
