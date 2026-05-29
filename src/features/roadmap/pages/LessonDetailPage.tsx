@@ -28,6 +28,7 @@ import { phases } from '../../../data/roadmap';
 import { PromptBlock } from '../../../core/components/PromptBlock';
 
 import { useLessonProgress } from '../hooks/useLessonProgress';
+import { LessonNotesSection } from '../components/LessonNotesSection';
 
 export const LessonPage: React.FC = () => {
     const progress = useLessonProgress();
@@ -564,6 +565,11 @@ export const LessonPage: React.FC = () => {
                             </Stack>
                         </Paper>
                     )}
+
+                    {/* Lesson Notes (Reflect & Distill) */}
+                    <Box sx={{ mt: 4 }}>
+                        <LessonNotesSection key={lesson.id} lessonId={lesson.id} />
+                    </Box>
                 </Grid>
             </Grid>
 

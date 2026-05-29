@@ -7,6 +7,9 @@ export const PATH_ROADMAP = "/roadmap";
 export const PATH_LESSON = "/lesson/:id";
 export const PATH_PLAYBOOK = "/playbook";
 export const PATH_LOG = "/log";
+export const PATH_CASE_STUDIES = "/cases";
+export const PATH_CASE_STUDY_DETAIL = "/cases/:id";
 
 // Hàm helper để render route động (như trang bài học chi tiết)
 export const getLessonPath = (id: string) => `/lesson/${id}`;
+export const getCaseStudyPath = (id: string) => `/cases/${id}`;

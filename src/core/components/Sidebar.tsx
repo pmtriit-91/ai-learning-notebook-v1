@@ -6,6 +6,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AltRouteIcon from "@mui/icons-material/AltRoute";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { ProgressBar } from "./ProgressBar";
 import { useColorMode } from "../../theme/ColorModeContext";
@@ -30,6 +31,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { text: "Roadmap học tập", path: "/roadmap", icon: <AltRouteIcon /> },
     { text: "Prompt Playbook", path: "/playbook", icon: <TerminalIcon /> },
     { text: "Nhật ký học tập", path: "/log", icon: <HistoryEduIcon /> },
+    { text: "Thư viện Case Study", path: "/cases", icon: <FolderSpecialIcon /> },
   ];
 
   return (

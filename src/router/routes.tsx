@@ -5,12 +5,16 @@ import { Roadmap } from "../features/roadmap/pages/RoadmapPage";
 import { LessonPage } from "../features/roadmap/pages/LessonDetailPage";
 import { PromptPlaybook } from "../features/prompt-playbook/pages/PromptPlaybookPage";
 import { LearningLog } from "../features/learning-log/pages/LearningLogPage";
+import { CaseStudyListPage } from "../features/case-study/pages/CaseStudyListPage";
+import { CaseStudyDetailPage } from "../features/case-study/pages/CaseStudyDetailPage";
 import {
   PATH_DASHBOARD,
   PATH_ROADMAP,
   PATH_LESSON,
   PATH_PLAYBOOK,
   PATH_LOG,
+  PATH_CASE_STUDIES,
+  PATH_CASE_STUDY_DETAIL,
 } from "./paths";
 
 /**
@@ -40,6 +44,14 @@ export const routes: RouteObject[] = [
       {
         path: PATH_LOG,
         element: <LearningLog />,
+      },
+      {
+        path: PATH_CASE_STUDIES,
+        element: <CaseStudyListPage />,
+      },
+      {
+        path: PATH_CASE_STUDY_DETAIL,
+        element: <CaseStudyDetailPage />,
       },
     ],
   },

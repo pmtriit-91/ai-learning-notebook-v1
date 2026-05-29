@@ -2,6 +2,7 @@ import type { LessonStatus } from "../../../types/lesson";
 
 const KEY_LESSON_STATUSES = "ai_learning_lesson_statuses";
 const KEY_CHECKLISTS = "ai_learning_checklists";
+const KEY_LESSON_NOTES = "ai_learning_lesson_notes";
 
 /**
  * Service chịu trách nhiệm xử lý logic lưu trữ vật lý (Persistence Layer) 
@@ -57,16 +58,42 @@ export const progressStorage = {
   },
 
   /**
+   * Lấy danh sách ghi chú bài học đã lưu từ LocalStorage.
+   */
+  getLessonNotes(): Record<string, { content: string; updatedAt: number }> {
+    try {
+      const saved = localStorage.getItem(KEY_LESSON_NOTES);
+      return saved ? JSON.parse(saved) : {};
+    } catch (error) {
+      console.error("Failed to parse lesson notes from storage:", error);
+      return {};
+    }
+  },
+
+  /**
+   * Lưu danh sách ghi chú bài học vào LocalStorage.
+   */
+  saveLessonNotes(notes: Record<string, { content: string; updatedAt: number }>): void {
+    try {
+      localStorage.setItem(KEY_LESSON_NOTES, JSON.stringify(notes));
+    } catch (error) {
+      console.error("Failed to save lesson notes to storage:", error);
+    }
+  },
+
+  /**
    * Xuất toàn bộ dữ liệu tiến độ bài học và checklist dưới dạng JSON string.
    */
   exportProgressData(): string {
     const statuses = this.getLessonStatuses();
     const checklists = this.getChecklists();
+    const notes = this.getLessonNotes();
     return JSON.stringify({
       version: 1,
       timestamp: Date.now(),
       lessonStatuses: statuses,
       checklists: checklists,
+      lessonNotes: notes,
     }, null, 2);
   },
 
@@ -82,6 +109,9 @@ export const progressStorage = {
         }
         if (data.checklists) {
           this.saveChecklists(data.checklists);
+        }
+        if (data.lessonNotes) {
+          this.saveLessonNotes(data.lessonNotes);
         }
         return true;
       }

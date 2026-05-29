@@ -16,6 +16,11 @@ const useLessonProgressInternal = () => {
     return progressStorage.getChecklists();
   });
 
+  // Trạng thái ghi chú bài học: { [lessonId]: { content: string; updatedAt: number } }
+  const [lessonNotes, setLessonNotes] = useState<Record<string, { content: string; updatedAt: number }>>(() => {
+    return progressStorage.getLessonNotes();
+  });
+
   useEffect(() => {
     progressStorage.saveLessonStatuses(lessonStatuses);
   }, [lessonStatuses]);
@@ -24,11 +29,15 @@ const useLessonProgressInternal = () => {
     progressStorage.saveChecklists(checklists);
   }, [checklists]);
 
+  useEffect(() => {
+    progressStorage.saveLessonNotes(lessonNotes);
+  }, [lessonNotes]);
+
   const getLessonStatus = (lessonId: string): LessonStatus => {
     return lessonStatuses[lessonId] || "not-started";
   };
 
-  const updateLessonStatus = (lessonId: string, status: LessonStatus, totalItems: number = 3) => {
+  const updateLessonStatus = React.useCallback((lessonId: string, status: LessonStatus, totalItems: number = 3) => {
     setLessonStatuses((prev) => ({
       ...prev,
       [lessonId]: status,
@@ -71,7 +80,7 @@ const useLessonProgressInternal = () => {
       }
       return prev;
     });
-  };
+  }, []);
 
   const getLessonChecklist = (lessonId: string, totalItems: number): boolean[] => {
     if (checklists[lessonId]) {
@@ -85,7 +94,7 @@ const useLessonProgressInternal = () => {
     return new Array(totalItems).fill(false);
   };
 
-  const toggleChecklistItem = (lessonId: string, index: number, totalItems: number) => {
+  const toggleChecklistItem = React.useCallback((lessonId: string, index: number, totalItems: number) => {
     const current = checklists[lessonId] ? [...checklists[lessonId]] : new Array(totalItems).fill(false);
     while (current.length < totalItems) {
       current.push(false);
@@ -111,7 +120,7 @@ const useLessonProgressInternal = () => {
       ...prev,
       [lessonId]: newStatus,
     }));
-  };
+  }, [checklists]);
 
   // Tính toán chỉ số thống kê
   const totalLessons = lessons.length;
@@ -137,11 +146,27 @@ const useLessonProgressInternal = () => {
     return phaseLessonIds.filter((id) => getLessonStatus(id) === "completed").length;
   };
 
+  const getLessonNote = (lessonId: string): string => {
+    return lessonNotes[lessonId]?.content || "";
+  };
+
+  const updateLessonNote = React.useCallback((lessonId: string, content: string) => {
+    setLessonNotes((prev) => ({
+      ...prev,
+      [lessonId]: {
+        content,
+        updatedAt: Date.now(),
+      },
+    }));
+  }, []);
+
   return {
     getLessonStatus,
     updateLessonStatus,
     getLessonChecklist,
     toggleChecklistItem,
+    getLessonNote,
+    updateLessonNote,
     totalLessons,
     completedLessonsCount,
     learningLessonsCount,

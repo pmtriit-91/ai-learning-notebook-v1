@@ -16,6 +16,7 @@ export const backupService = {
         backupTime: new Date().toISOString(),
         lessonStatuses: progressStorage.getLessonStatuses(),
         checklists: progressStorage.getChecklists(),
+        lessonNotes: progressStorage.getLessonNotes(),
         logs: logStorage.getLogs(),
       };
 
@@ -61,6 +62,9 @@ export const backupService = {
             }
             if (data.checklists && typeof data.checklists === "object") {
               progressStorage.saveChecklists(data.checklists);
+            }
+            if (data.lessonNotes && typeof data.lessonNotes === "object") {
+              progressStorage.saveLessonNotes(data.lessonNotes);
             }
             if (data.logs && Array.isArray(data.logs)) {
               logStorage.saveLogs(data.logs);
