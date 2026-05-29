@@ -1,16 +1,14 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
-import type { UseLessonProgressType } from '../hooks/useLessonProgress';
-import { phases } from '../data/roadmap';
-import { lessons } from '../data/lessons';
+import { phases } from '../../../data/roadmap';
+import { lessons } from '../../../data/lessons';
 import { RoadmapCard } from '../components/RoadmapCard';
 
-interface RoadmapProps {
-    progress: UseLessonProgressType;
-}
+import { useLessonProgress } from '../hooks/useLessonProgress';
 
-export const Roadmap: React.FC<RoadmapProps> = ({ progress }) => {
+export const Roadmap: React.FC = () => {
+    const progress = useLessonProgress();
     const { getLessonStatus, getPhaseProgress, getPhaseCompletedCount } = progress;
 
     return (

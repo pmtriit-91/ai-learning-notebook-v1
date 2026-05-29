@@ -1,6 +1,6 @@
 import React from "react";
 import { Chip } from "@mui/material";
-import type { LessonStatus } from "../types/lesson";
+import type { LessonStatus } from "../../../types/lesson";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";

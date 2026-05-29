@@ -6,7 +6,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import SecurityIcon from '@mui/icons-material/Security';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { PromptBlock } from '../components/PromptBlock';
+import { PromptBlock } from '../../../core/components/PromptBlock';
 
 interface PlaybookPrompt {
     title: string;

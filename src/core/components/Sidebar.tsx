@@ -8,7 +8,7 @@ import TerminalIcon from "@mui/icons-material/Terminal";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { ProgressBar } from "./ProgressBar";
-import { useColorMode } from "../theme/ColorModeContext";
+import { useColorMode } from "../../theme/ColorModeContext";
 
 interface SidebarProps {
   overallProgress: number;
@@ -172,6 +172,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           value={overallProgress}
           completedCount={completedLessonsCount}
           totalCount={totalLessons}
+          textColor="#cbd5e1"
         />
         <Box sx={{ mt: 2, display: "flex", justifyContent: "center" }}>
           <Typography

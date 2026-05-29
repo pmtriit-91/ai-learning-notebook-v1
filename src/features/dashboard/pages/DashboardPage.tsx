@@ -4,18 +4,42 @@ import { Box, Typography, Card, CardContent, Button, Paper, Grid } from '@mui/ma
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import type { UseLessonProgressType } from '../hooks/useLessonProgress';
-import { lessons } from '../data/lessons';
-import { phases } from '../data/roadmap';
-import { LessonCard } from '../components/LessonCard';
-import { ProgressBar } from '../components/ProgressBar';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import BackupIcon from '@mui/icons-material/Backup';
+import { lessons } from '../../../data/lessons';
+import { phases } from '../../../data/roadmap';
+import { LessonCard } from '../../roadmap/components/LessonCard';
+import { ProgressBar } from '../../../core/components/ProgressBar';
+import { backupService } from '../../../core/services/backupService';
 
-interface DashboardProps {
-    progress: UseLessonProgressType;
-}
+import { useLessonProgress } from '../../roadmap/hooks/useLessonProgress';
 
-export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
+export const Dashboard: React.FC = () => {
+    const progress = useLessonProgress();
     const navigate = useNavigate();
+    
+    const handleExportBackup = () => {
+        backupService.exportBackup();
+    };
+
+    const handleImportBackup = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const confirmImport = window.confirm(
+            'Bạn có chắc chắn muốn nhập dữ liệu không? Hành động này sẽ ghi đè toàn bộ tiến trình học và nhật ký hiện tại!'
+        );
+        if (!confirmImport) return;
+
+        const success = await backupService.importBackup(file);
+        if (success) {
+            alert('Nhập dữ liệu thành công! Trang web sẽ tự động tải lại.');
+            window.location.reload();
+        } else {
+            alert('Nhập dữ liệu thất bại! Vui lòng kiểm tra lại file sao lưu.');
+        }
+    };
     const { getLessonStatus, completedLessonsCount, learningLessonsCount, overallProgress } = progress;
 
     // Tìm bài học tiếp theo cần học: đang học -> chưa bắt đầu -> bài cuối cùng
@@ -36,8 +60,31 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
             ? activeLessons
             : lessons.filter((l) => getLessonStatus(l.id) === 'not-started').slice(0, 3);
 
+    const isLoverCompleted = completedLessonsCount === lessons.length;
+    const currentStatus = getLessonStatus(currentLesson.id);
+
+    // Xác định nhãn badge
+    let badgeLabel = 'BÀI HỌC HIỆN TẠI';
+    if (isLoverCompleted) {
+        badgeLabel = 'LỘ TRÌNH HOÀN THÀNH';
+    } else if (completedLessonsCount === 0 && currentStatus === 'not-started') {
+        badgeLabel = 'BÀI HỌC GỢI Ý ĐẦU TIÊN';
+    }
+
+    // Xác định nhãn nút bấm
+    let buttonLabel = 'Tiếp tục học';
+    if (isLoverCompleted) {
+        buttonLabel = 'Xem lại lộ trình';
+    } else if (currentStatus === 'not-started') {
+        buttonLabel = 'Bắt đầu học';
+    }
+
     const handleContinue = () => {
-        navigate(`/lesson/${currentLesson.id}`);
+        if (isLoverCompleted) {
+            navigate('/roadmap');
+        } else {
+            navigate(`/lesson/${currentLesson.id}`);
+        }
     };
 
     return (
@@ -180,7 +227,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                                         letterSpacing: '0.5px',
                                     }}
                                 >
-                                    BÀI HỌC HIỆN TẠI
+                                    {badgeLabel}
                                 </Typography>
                                 <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary' }}>
                                     {currentPhase.title}
@@ -226,7 +273,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                                     },
                                 }}
                             >
-                                Tiếp tục học
+                                {buttonLabel}
                             </Button>
                         </Grid>
                     </Grid>
@@ -261,6 +308,92 @@ export const Dashboard: React.FC<DashboardProps> = ({ progress }) => {
                     ))}
                 </Grid>
             </Box>
+
+            {/* Backup & Restore Section */}
+            <Paper
+                sx={{
+                    p: 3,
+                    borderRadius: '16px',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    boxShadow: 'none',
+                    backgroundColor: 'background.paper',
+                    mt: 5,
+                }}
+            >
+                <Grid container spacing={3} sx={{ alignItems: 'center' }}>
+                    <Grid size={{ xs: 12, md: 7 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
+                            <BackupIcon sx={{ color: 'primary.main', fontSize: '1.5rem' }} />
+                            <Typography
+                                variant="subtitle1"
+                                sx={{
+                                    fontFamily: 'var(--font-heading)',
+                                    fontWeight: 800,
+                                    color: 'text.primary',
+                                    fontSize: '1.1rem',
+                                }}
+                            >
+                                Quản lý dữ liệu học tập
+                            </Typography>
+                        </Box>
+                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.5 }}>
+                            Sao lưu toàn bộ tiến độ bài học, checklists và nhật ký của bạn thành file JSON, hoặc khôi phục lại dữ liệu từ tệp tin đã sao lưu trước đó. Tất cả dữ liệu được xử lý offline tại máy của bạn.
+                        </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 5 }} sx={{ display: 'flex', gap: 2, justifyContent: { md: 'flex-end' } }}>
+                        <Button
+                            variant="outlined"
+                            onClick={handleExportBackup}
+                            startIcon={<CloudDownloadIcon />}
+                            sx={{
+                                textTransform: 'none',
+                                fontWeight: 700,
+                                borderRadius: '10px',
+                                borderColor: 'divider',
+                                color: 'text.secondary',
+                                px: 2.5,
+                                py: 1.25,
+                                fontSize: '0.9rem',
+                                '&:hover': {
+                                    borderColor: 'primary.main',
+                                    backgroundColor: 'action.hover',
+                                    color: 'primary.main',
+                                },
+                            }}
+                        >
+                            Sao lưu dữ liệu
+                        </Button>
+                        <Button
+                            component="label"
+                            variant="contained"
+                            startIcon={<CloudUploadIcon />}
+                            sx={{
+                                textTransform: 'none',
+                                fontWeight: 700,
+                                borderRadius: '10px',
+                                backgroundColor: 'primary.main',
+                                color: 'primary.contrastText',
+                                px: 2.5,
+                                py: 1.25,
+                                fontSize: '0.9rem',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    backgroundColor: 'primary.dark',
+                                },
+                            }}
+                        >
+                            Khôi phục dữ liệu
+                            <input
+                                type="file"
+                                accept=".json"
+                                onChange={handleImportBackup}
+                                style={{ display: 'none' }}
+                            />
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Paper>
         </Box>
     );
 };

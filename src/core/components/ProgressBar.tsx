@@ -7,9 +7,10 @@ interface ProgressBarProps {
     completedCount?: number;
     totalCount?: number;
     height?: number;
+    textColor?: string;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, completedCount, totalCount, height = 10 }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, completedCount, totalCount, height = 10, textColor }) => {
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
@@ -25,7 +26,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ value, label, complete
                         </Typography>
                     )
                 )}
-                <Typography variant="body2" sx={{ fontWeight: 800, color: 'primary.main' }}>
+                <Typography variant="body2" sx={{ fontWeight: 800, color: textColor || 'primary.main' }}>
                     {value}%
                 </Typography>
             </Box>

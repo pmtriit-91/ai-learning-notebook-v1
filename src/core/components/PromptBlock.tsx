@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { ContentCopy, Check } from '@mui/icons-material';
-import { useColorMode } from '../theme/ColorModeContext';
+import { useColorMode } from '../../theme/ColorModeContext';
 
 interface PromptBlockProps {
     prompt: string;

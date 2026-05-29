@@ -1,37 +1,53 @@
-import { useState, useEffect } from "react";
-import type { LessonStatus } from "../types/lesson";
-import { lessons } from "../data/lessons";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import type { LessonStatus } from "../../../types/lesson";
+import { lessons } from "../../../data/lessons";
 
-export const useLessonProgress = () => {
+import { progressStorage } from "../services/progressStorage";
+
+const useLessonProgressInternal = () => {
   // Trạng thái bài học: { [lessonId]: LessonStatus }
   const [lessonStatuses, setLessonStatuses] = useState<Record<string, LessonStatus>>(() => {
-    const saved = localStorage.getItem("ai_learning_lesson_statuses");
-    return saved ? JSON.parse(saved) : {};
+    return progressStorage.getLessonStatuses();
   });
 
   // Trạng thái checklist từng bài học: { [lessonId]: boolean[] }
   const [checklists, setChecklists] = useState<Record<string, boolean[]>>(() => {
-    const saved = localStorage.getItem("ai_learning_checklists");
-    return saved ? JSON.parse(saved) : {};
+    return progressStorage.getChecklists();
   });
 
   useEffect(() => {
-    localStorage.setItem("ai_learning_lesson_statuses", JSON.stringify(lessonStatuses));
+    progressStorage.saveLessonStatuses(lessonStatuses);
   }, [lessonStatuses]);
 
   useEffect(() => {
-    localStorage.setItem("ai_learning_checklists", JSON.stringify(checklists));
+    progressStorage.saveChecklists(checklists);
   }, [checklists]);
 
   const getLessonStatus = (lessonId: string): LessonStatus => {
     return lessonStatuses[lessonId] || "not-started";
   };
 
-  const updateLessonStatus = (lessonId: string, status: LessonStatus) => {
+  const updateLessonStatus = (lessonId: string, status: LessonStatus, totalItems: number = 3) => {
     setLessonStatuses((prev) => ({
       ...prev,
       [lessonId]: status,
     }));
+
+    // Đồng bộ sang checklist
+    setChecklists((prev) => {
+      if (status === "completed") {
+        return {
+          ...prev,
+          [lessonId]: new Array(totalItems).fill(true),
+        };
+      } else if (status === "not-started") {
+        return {
+          ...prev,
+          [lessonId]: new Array(totalItems).fill(false),
+        };
+      }
+      return prev;
+    });
   };
 
   const getLessonChecklist = (lessonId: string, totalItems: number): boolean[] => {
@@ -53,6 +69,34 @@ export const useLessonProgress = () => {
         current.push(false);
       }
       current[index] = !current[index];
+
+      // Đồng bộ sang lesson status
+      const checkedCount = current.filter(Boolean).length;
+      setLessonStatuses((prevStatuses) => {
+        const currentStatus = prevStatuses[lessonId] || "not-started";
+        let newStatus = currentStatus;
+
+        if (checkedCount === totalItems) {
+          newStatus = "completed";
+        } else if (checkedCount > 0) {
+          if (currentStatus === "completed" || currentStatus === "not-started") {
+            newStatus = "learning";
+          }
+        } else if (checkedCount === 0) {
+          if (currentStatus === "learning" || currentStatus === "completed") {
+            newStatus = "not-started";
+          }
+        }
+
+        if (newStatus !== currentStatus) {
+          return {
+            ...prevStatuses,
+            [lessonId]: newStatus,
+          };
+        }
+        return prevStatuses;
+      });
+
       return {
         ...prev,
         [lessonId]: current,
@@ -97,4 +141,24 @@ export const useLessonProgress = () => {
     getPhaseCompletedCount,
   };
 };
-export type UseLessonProgressType = ReturnType<typeof useLessonProgress>;
+
+export type UseLessonProgressType = ReturnType<typeof useLessonProgressInternal>;
+
+export const LessonProgressContext = createContext<UseLessonProgressType | null>(null);
+
+export const LessonProgressProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const value = useLessonProgressInternal();
+  return (
+    <LessonProgressContext.Provider value={value}>
+      {children}
+    </LessonProgressContext.Provider>
+  );
+};
+
+export const useLessonProgress = () => {
+  const context = useContext(LessonProgressContext);
+  if (!context) {
+    throw new Error("useLessonProgress must be used within a LessonProgressProvider");
+  }
+  return context;
+};

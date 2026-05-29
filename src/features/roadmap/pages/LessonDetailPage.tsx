@@ -23,16 +23,14 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import LaunchIcon from '@mui/icons-material/Launch';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import type { UseLessonProgressType } from '../hooks/useLessonProgress';
-import { lessons } from '../data/lessons';
-import { phases } from '../data/roadmap';
-import { PromptBlock } from '../components/PromptBlock';
+import { lessons } from '../../../data/lessons';
+import { phases } from '../../../data/roadmap';
+import { PromptBlock } from '../../../core/components/PromptBlock';
 
-interface LessonPageProps {
-    progress: UseLessonProgressType;
-}
+import { useLessonProgress } from '../hooks/useLessonProgress';
 
-export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
+export const LessonPage: React.FC = () => {
+    const progress = useLessonProgress();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
@@ -67,7 +65,7 @@ export const LessonPage: React.FC<LessonPageProps> = ({ progress }) => {
     const checklistState = getLessonChecklist(lesson.id, checklistItems.length);
 
     const handleStatusChange = (newStatus: 'not-started' | 'learning' | 'completed') => {
-        updateLessonStatus(lesson.id, newStatus);
+        updateLessonStatus(lesson.id, newStatus, checklistItems.length);
     };
 
     const prevLesson = lessonIndex > 0 ? lessons[lessonIndex - 1] : null;

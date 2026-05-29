@@ -14,24 +14,14 @@ import {
     Grid,
 } from '@mui/material';
 import { Delete, Edit, CalendarToday, AutoStories } from '@mui/icons-material';
-import { lessons } from '../data/lessons';
-import { PromptBlock } from '../components/PromptBlock';
-
-interface LogEntry {
-    id: string;
-    date: string;
-    lessonId: string;
-    whatLearned: string;
-    codebaseConnection: string;
-    mistakesAndLessons: string;
-    reusablePrompts: string;
-    nextSteps: string; // Thêm trường hành động tiếp theo
-}
+import { lessons } from '../../../data/lessons';
+import { PromptBlock } from '../../../core/components/PromptBlock';
+import { logStorage } from '../services/logStorage';
+import type { LogEntry } from '../services/logStorage';
 
 export const LearningLog: React.FC = () => {
     const [logs, setLogs] = useState<LogEntry[]>(() => {
-        const saved = localStorage.getItem('ai_learning_logs');
-        return saved ? JSON.parse(saved) : [];
+        return logStorage.getLogs();
     });
 
     const date = new Date().toISOString().split('T')[0];
@@ -43,7 +33,7 @@ export const LearningLog: React.FC = () => {
     const [nextSteps, setNextSteps] = useState(''); // State cho bước đi tiếp theo
 
     useEffect(() => {
-        localStorage.setItem('ai_learning_logs', JSON.stringify(logs));
+        logStorage.saveLogs(logs);
     }, [logs]);
 
     const handleSubmit = (e: React.FormEvent) => {

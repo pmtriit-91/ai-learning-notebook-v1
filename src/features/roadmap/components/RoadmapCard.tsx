@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, Typography, Box, Divider, List, ListItem, ListItemButton, Grid } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import type { Phase, Lesson, LessonStatus } from '../types/lesson';
-import { ProgressBar } from './ProgressBar';
+import type { Phase, Lesson, LessonStatus } from '../../../types/lesson';
+import { ProgressBar } from '../../../core/components/ProgressBar';
 import { StatusBadge } from './StatusBadge';
 
 interface RoadmapCardProps {

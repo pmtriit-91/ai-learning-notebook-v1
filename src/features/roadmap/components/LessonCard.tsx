@@ -2,9 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, Typography, Box, Chip } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import type { Lesson, LessonStatus } from "../types/lesson";
+import type { Lesson, LessonStatus } from "../../../types/lesson";
 import { StatusBadge } from "./StatusBadge";
-import { useColorMode } from "../theme/ColorModeContext";
+import { useColorMode } from "../../../theme/ColorModeContext";
 
 interface LessonCardProps {
   lesson: Lesson;
