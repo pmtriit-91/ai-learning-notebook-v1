@@ -15,6 +15,11 @@ import {
     Chip,
     Divider,
     Grid,
+    useTheme,
+    useMediaQuery,
+    Fab,
+    Drawer,
+    Tooltip,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -23,6 +28,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import LaunchIcon from '@mui/icons-material/Launch';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EditIcon from '@mui/icons-material/Edit';
 import { lessons } from '../../../data/lessons';
 import { phases } from '../../../data/roadmap';
 import { PromptBlock } from '../../../core/components/PromptBlock';
@@ -34,6 +40,9 @@ export const LessonPage: React.FC = () => {
     const progress = useLessonProgress();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const [isNotesOpen, setIsNotesOpen] = React.useState(false);
 
     const { getLessonStatus, updateLessonStatus, getLessonChecklist, toggleChecklistItem } = progress;
 
@@ -566,10 +575,22 @@ export const LessonPage: React.FC = () => {
                         </Paper>
                     )}
 
-                    {/* Lesson Notes (Reflect & Distill) */}
-                    <Box sx={{ mt: 4 }}>
-                        <LessonNotesSection key={lesson.id} lessonId={lesson.id} />
-                    </Box>
+                    {/* Lesson Notes (Reflect & Distill) - Chỉ hiển thị trên Desktop ở dạng sticky */}
+                    {!isMobile && (
+                        <Box
+                            sx={{
+                                mt: 4,
+                                position: 'sticky',
+                                top: '96px',
+                                height: 'calc(100vh - 240px)',
+                                maxHeight: 520,
+                                minHeight: 350,
+                                zIndex: 10,
+                            }}
+                        >
+                            <LessonNotesSection key={lesson.id} lessonId={lesson.id} />
+                        </Box>
+                    )}
                 </Grid>
             </Grid>
 
@@ -642,6 +663,57 @@ export const LessonPage: React.FC = () => {
                     <Box />
                 )}
             </Box>
+
+            {/* FAB & Drawer ghi chú cho Mobile/Tablet */}
+            {isMobile && (
+                <>
+                    <Tooltip title="Sổ tay bài học" placement="left">
+                        <Fab
+                            color="primary"
+                            aria-label="open-notes"
+                            onClick={() => setIsNotesOpen(true)}
+                            sx={{
+                                position: 'fixed',
+                                bottom: 24,
+                                right: 24,
+                                zIndex: 1200,
+                                boxShadow: 4,
+                                backgroundColor: 'primary.main',
+                                color: 'primary.contrastText',
+                                '&:hover': {
+                                    backgroundColor: 'primary.dark',
+                                },
+                            }}
+                        >
+                            <EditIcon />
+                        </Fab>
+                    </Tooltip>
+                    <Drawer
+                        anchor="right"
+                        open={isNotesOpen}
+                        onClose={() => setIsNotesOpen(false)}
+                        slotProps={{
+                            paper: {
+                                sx: {
+                                    width: { xs: '100%', sm: 400 },
+                                    p: 2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    height: '100%',
+                                    boxSizing: 'border-box',
+                                    backgroundColor: 'background.paper',
+                                }
+                            }
+                        }}
+                    >
+                        <LessonNotesSection
+                            key={lesson.id}
+                            lessonId={lesson.id}
+                            onMobileClose={() => setIsNotesOpen(false)}
+                        />
+                    </Drawer>
+                </>
+            )}
         </Box>
     );
 };
