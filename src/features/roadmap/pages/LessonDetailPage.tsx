@@ -18,6 +18,9 @@ import {
     Fab,
     Drawer,
     Tooltip,
+    TextField,
+    Collapse,
+    Alert,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -27,20 +30,43 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import LaunchIcon from '@mui/icons-material/Launch';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import EditIcon from '@mui/icons-material/Edit';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import CheckIcon from '@mui/icons-material/Check';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { lessons } from '../../../data/lessons';
 import { phases } from '../../../data/roadmap';
 import { PromptBlock } from '../../../core/components/PromptBlock';
 
 import { useLessonProgress } from '../hooks/useLessonProgress';
 import { LessonNotesSection } from '../components/LessonNotesSection';
+import { analyzePromptQuality, type PromptAnalysisResult } from '../utils/promptHeuristicChecker';
 
 export const LessonPage: React.FC = () => {
     const progress = useLessonProgress();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [isNotesOpen, setIsNotesOpen] = React.useState(false);
+    const [expandedRubrics, setExpandedRubrics] = React.useState<Record<number, boolean>>({});
+    const [analysisResults, setAnalysisResults] = React.useState<Record<number, PromptAnalysisResult>>({});
 
-    const { getLessonStatus, updateLessonStatus, getLessonChecklist, toggleChecklistItem } = progress;
+    const { 
+        getLessonStatus, 
+        updateLessonStatus, 
+        getLessonChecklist, 
+        toggleChecklistItem,
+        getExerciseAnswer,
+        updateExerciseAnswer,
+        getExerciseCompleted,
+        toggleExerciseCompleted
+    } = progress;
+
+    const handleCheckPrompt = (index: number, value: string) => {
+        const result = analyzePromptQuality(value);
+        setAnalysisResults(prev => ({
+            ...prev,
+            [index]: result
+        }));
+    };
 
     // Tìm bài học hiện tại
     const lessonIndex = lessons.findIndex((l) => l.id === id);
@@ -456,7 +482,7 @@ export const LessonPage: React.FC = () => {
                                     fontFamily: 'var(--font-heading)',
                                     fontWeight: 800,
                                     color: 'text.primary',
-                                    mb: 2.5,
+                                    mb: 3,
                                     pb: 1,
                                     borderBottom: '2px solid',
                                     borderBottomColor: 'divider',
@@ -464,17 +490,168 @@ export const LessonPage: React.FC = () => {
                             >
                                 Bài tập thực hành (Exercises)
                             </Typography>
-                            <Stack spacing={2} component="ul" sx={{ pl: 2, m: 0 }}>
-                                {lesson.exercises.map((exercise, index) => (
-                                    <Typography
-                                        key={index}
-                                        component="li"
-                                        variant="body1"
-                                        sx={{ color: 'text.secondary', lineHeight: 1.7, listStyleType: 'disc' }}
-                                    >
-                                        {exercise}
-                                    </Typography>
-                                ))}
+                            <Stack spacing={3}>
+                                {lesson.exercises.map((exercise, index) => {
+                                    const isPromptExercise = exercise.toLowerCase().includes('prompt');
+                                    const answer = getExerciseAnswer(lesson.id, index);
+                                    const isCompleted = getExerciseCompleted(lesson.id, index);
+                                    const isExpanded = !!expandedRubrics[index];
+                                    const analysis = analysisResults[index];
+                                    
+                                    const rubricItems = (lesson as unknown as { rubrics?: string[][] }).rubrics?.[index] || [
+                                        "Trả lời đúng trọng tâm câu hỏi chưa?",
+                                        "Có ví dụ hoặc liên hệ dự án/workflow không?",
+                                        "Có kết luận ngắn gọn, rõ ràng không?",
+                                        isPromptExercise ? "Có đủ 5 thành phần Context/Task/Constraint/Output/Verify không?" : "Đã tự kiểm chứng kết quả chạy thử chưa?"
+                                    ];
+
+                                    return (
+                                        <Card
+                                            key={index}
+                                            variant="outlined"
+                                            sx={{
+                                                borderRadius: '12px',
+                                                borderColor: isCompleted ? 'success.light' : 'divider',
+                                                backgroundColor: isCompleted 
+                                                    ? (theme) => theme.palette.mode === 'light' ? 'rgba(46, 125, 50, 0.01)' : 'rgba(46, 125, 50, 0.02)'
+                                                    : 'background.paper',
+                                                transition: 'all 0.2s ease',
+                                                boxShadow: isCompleted ? '0 2px 8px rgba(46, 125, 50, 0.05)' : 'none',
+                                            }}
+                                        >
+                                            <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
+                                                {/* Header Row */}
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+                                                    <Typography
+                                                        variant="subtitle1"
+                                                        sx={{
+                                                            fontWeight: 800,
+                                                            color: isCompleted ? 'success.main' : 'text.primary',
+                                                            fontFamily: 'var(--font-heading)',
+                                                            fontSize: '1rem',
+                                                        }}
+                                                    >
+                                                        Bài tập {index + 1}: {exercise}
+                                                    </Typography>
+                                                    {isCompleted && (
+                                                        <Chip
+                                                            icon={<CheckCircleIcon sx={{ fontSize: '1rem !important' }} />}
+                                                            label="Hoàn thành"
+                                                            color="success"
+                                                            size="small"
+                                                            sx={{ fontWeight: 700, borderRadius: '6px' }}
+                                                        />
+                                                    )}
+                                                </Box>
+
+                                                {/* Answer Input */}
+                                                <TextField
+                                                    fullWidth
+                                                    multiline
+                                                    rows={3}
+                                                    variant="outlined"
+                                                    placeholder={isPromptExercise 
+                                                        ? "Gõ câu prompt thực hành của bạn tại đây..." 
+                                                        : "Gõ câu trả lời/phân tích của bạn tại đây..."}
+                                                    value={answer}
+                                                    onChange={(e) => updateExerciseAnswer(lesson.id, index, e.target.value)}
+                                                    slotProps={{
+                                                        input: {
+                                                            sx: {
+                                                                borderRadius: '10px',
+                                                                fontSize: '0.9rem',
+                                                                backgroundColor: 'background.default',
+                                                                fontFamily: isPromptExercise ? 'var(--font-monospace)' : 'inherit',
+                                                            }
+                                                        }
+                                                    }}
+                                                    sx={{ mb: 2 }}
+                                                />
+
+                                                {/* Analysis Result (if checked) */}
+                                                {isPromptExercise && analysis && (
+                                                    <Collapse in={!!analysis} sx={{ mb: 2 }}>
+                                                        <Alert 
+                                                            severity={analysis.score >= 80 ? "success" : analysis.score >= 50 ? "warning" : "error"}
+                                                            icon={<AutoAwesomeIcon />}
+                                                            sx={{ borderRadius: '10px', border: '1px solid', borderColor: 'divider' }}
+                                                        >
+                                                            <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 0.5 }}>
+                                                                Đánh giá Prompt: {analysis.score}/100 điểm
+                                                            </Typography>
+                                                            <Typography variant="body2" sx={{ lineHeight: 1.5 }}>
+                                                                {analysis.feedback}
+                                                            </Typography>
+                                                        </Alert>
+                                                    </Collapse>
+                                                )}
+
+                                                {/* Rubric View */}
+                                                <Collapse in={isExpanded} sx={{ mb: 2 }}>
+                                                    <Box sx={{ p: 2, borderRadius: '10px', backgroundColor: 'background.default', border: '1px dashed', borderColor: 'divider' }}>
+                                                        <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 1, display: 'flex', alignItems: 'center', gap: 0.5, color: 'warning.main' }}>
+                                                            <LightbulbIcon sx={{ fontSize: '1.1rem' }} />
+                                                            Tiêu chí đánh giá & Gợi ý (Rubric)
+                                                        </Typography>
+                                                        <Stack spacing={1} component="ul" sx={{ pl: 2, m: 0 }}>
+                                                            {rubricItems.map((item: string, rIdx: number) => (
+                                                                <Typography key={rIdx} component="li" variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.5, listStyleType: 'decimal' }}>
+                                                                    {item}
+                                                                </Typography>
+                                                            ))}
+                                                        </Stack>
+                                                    </Box>
+                                                </Collapse>
+
+                                                {/* Action Buttons */}
+                                                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+                                                    {isPromptExercise && (
+                                                        <Button
+                                                            size="small"
+                                                            variant="outlined"
+                                                            color="secondary"
+                                                            startIcon={<AutoAwesomeIcon />}
+                                                            onClick={() => handleCheckPrompt(index, answer)}
+                                                            disabled={!answer.trim()}
+                                                            sx={{ textTransform: 'none', fontWeight: 700, borderRadius: '8px' }}
+                                                        >
+                                                            Kiểm tra prompt
+                                                        </Button>
+                                                    )}
+                                                    
+                                                    <Button
+                                                        size="small"
+                                                        variant="text"
+                                                        color="inherit"
+                                                        startIcon={<LightbulbIcon />}
+                                                        onClick={() => setExpandedRubrics(prev => ({ ...prev, [index]: !isExpanded }))}
+                                                        sx={{ textTransform: 'none', fontWeight: 600, color: 'text.secondary' }}
+                                                    >
+                                                        {isExpanded ? "Ẩn gợi ý" : "Xem gợi ý"}
+                                                    </Button>
+
+                                                    <Button
+                                                        size="small"
+                                                        variant={isCompleted ? "contained" : "outlined"}
+                                                        color="success"
+                                                        startIcon={<CheckIcon />}
+                                                        onClick={() => toggleExerciseCompleted(lesson.id, index, lesson.exercises.length, checklistItems)}
+                                                        sx={{ 
+                                                            ml: 'auto', 
+                                                            textTransform: 'none', 
+                                                            fontWeight: 700, 
+                                                            borderRadius: '8px',
+                                                            backgroundColor: isCompleted ? 'success.main' : 'transparent',
+                                                            color: isCompleted ? 'success.contrastText' : 'success.main',
+                                                        }}
+                                                    >
+                                                        {isCompleted ? "Đã xong" : "Đánh dấu hoàn thành"}
+                                                    </Button>
+                                                </Box>
+                                            </CardContent>
+                                        </Card>
+                                    );
+                                })}
                             </Stack>
                         </Paper>
                     )}

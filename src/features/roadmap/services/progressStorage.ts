@@ -3,6 +3,8 @@ import type { LessonStatus } from "../../../types/lesson";
 const KEY_LESSON_STATUSES = "ai_learning_lesson_statuses";
 const KEY_CHECKLISTS = "ai_learning_checklists";
 const KEY_LESSON_NOTES = "ai_learning_lesson_notes";
+const KEY_EXERCISE_ANSWERS = "ai_learning_exercise_answers";
+const KEY_EXERCISE_STATUS = "ai_learning_exercise_status";
 
 /**
  * Service chịu trách nhiệm xử lý logic lưu trữ vật lý (Persistence Layer) 
@@ -82,18 +84,70 @@ export const progressStorage = {
   },
 
   /**
+   * Lấy danh sách câu trả lời bài tập thực hành đã lưu.
+   */
+  getExerciseAnswers(): Record<string, Record<number, string>> {
+    try {
+      const saved = localStorage.getItem(KEY_EXERCISE_ANSWERS);
+      return saved ? JSON.parse(saved) : {};
+    } catch (error) {
+      console.error("Failed to parse exercise answers from storage:", error);
+      return {};
+    }
+  },
+
+  /**
+   * Lưu danh sách câu trả lời bài tập thực hành.
+   */
+  saveExerciseAnswers(answers: Record<string, Record<number, string>>): void {
+    try {
+      localStorage.setItem(KEY_EXERCISE_ANSWERS, JSON.stringify(answers));
+    } catch (error) {
+      console.error("Failed to save exercise answers to storage:", error);
+    }
+  },
+
+  /**
+   * Lấy danh sách trạng thái hoàn thành bài tập thực hành.
+   */
+  getExerciseStatus(): Record<string, boolean[]> {
+    try {
+      const saved = localStorage.getItem(KEY_EXERCISE_STATUS);
+      return saved ? JSON.parse(saved) : {};
+    } catch (error) {
+      console.error("Failed to parse exercise statuses from storage:", error);
+      return {};
+    }
+  },
+
+  /**
+   * Lưu danh sách trạng thái hoàn thành bài tập thực hành.
+   */
+  saveExerciseStatus(status: Record<string, boolean[]>): void {
+    try {
+      localStorage.setItem(KEY_EXERCISE_STATUS, JSON.stringify(status));
+    } catch (error) {
+      console.error("Failed to save exercise statuses to storage:", error);
+    }
+  },
+
+  /**
    * Xuất toàn bộ dữ liệu tiến độ bài học và checklist dưới dạng JSON string.
    */
   exportProgressData(): string {
     const statuses = this.getLessonStatuses();
     const checklists = this.getChecklists();
     const notes = this.getLessonNotes();
+    const answers = this.getExerciseAnswers();
+    const exerciseStatus = this.getExerciseStatus();
     return JSON.stringify({
       version: 1,
       timestamp: Date.now(),
       lessonStatuses: statuses,
       checklists: checklists,
       lessonNotes: notes,
+      exerciseAnswers: answers,
+      exerciseStatus: exerciseStatus,
     }, null, 2);
   },
 
@@ -112,6 +166,12 @@ export const progressStorage = {
         }
         if (data.lessonNotes) {
           this.saveLessonNotes(data.lessonNotes);
+        }
+        if (data.exerciseAnswers) {
+          this.saveExerciseAnswers(data.exerciseAnswers);
+        }
+        if (data.exerciseStatus) {
+          this.saveExerciseStatus(data.exerciseStatus);
         }
         return true;
       }

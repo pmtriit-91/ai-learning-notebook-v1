@@ -21,6 +21,16 @@ const useLessonProgressInternal = () => {
     return progressStorage.getLessonNotes();
   });
 
+  // Trạng thái câu trả lời bài tập: { [lessonId]: { [exerciseIndex]: string } }
+  const [exerciseAnswers, setExerciseAnswers] = useState<Record<string, Record<number, string>>>(() => {
+    return progressStorage.getExerciseAnswers();
+  });
+
+  // Trạng thái hoàn thành bài tập: { [lessonId]: boolean[] }
+  const [exerciseStatuses, setExerciseStatuses] = useState<Record<string, boolean[]>>(() => {
+    return progressStorage.getExerciseStatus();
+  });
+
   useEffect(() => {
     progressStorage.saveLessonStatuses(lessonStatuses);
   }, [lessonStatuses]);
@@ -32,6 +42,14 @@ const useLessonProgressInternal = () => {
   useEffect(() => {
     progressStorage.saveLessonNotes(lessonNotes);
   }, [lessonNotes]);
+
+  useEffect(() => {
+    progressStorage.saveExerciseAnswers(exerciseAnswers);
+  }, [exerciseAnswers]);
+
+  useEffect(() => {
+    progressStorage.saveExerciseStatus(exerciseStatuses);
+  }, [exerciseStatuses]);
 
   const getLessonStatus = (lessonId: string): LessonStatus => {
     return lessonStatuses[lessonId] || "not-started";
@@ -160,6 +178,94 @@ const useLessonProgressInternal = () => {
     }));
   }, []);
 
+  const getExerciseAnswer = (lessonId: string, exerciseIndex: number): string => {
+    return exerciseAnswers[lessonId]?.[exerciseIndex] || "";
+  };
+
+  const updateExerciseAnswer = React.useCallback((lessonId: string, exerciseIndex: number, answer: string) => {
+    setExerciseAnswers((prev) => {
+      const lessonPrev = prev[lessonId] || {};
+      return {
+        ...prev,
+        [lessonId]: {
+          ...lessonPrev,
+          [exerciseIndex]: answer,
+        },
+      };
+    });
+  }, []);
+
+  const getExerciseCompleted = (lessonId: string, exerciseIndex: number): boolean => {
+    return exerciseStatuses[lessonId]?.[exerciseIndex] || false;
+  };
+
+  const toggleExerciseCompleted = React.useCallback((
+    lessonId: string, 
+    exerciseIndex: number, 
+    totalExercises: number,
+    checklistItems?: string[]
+  ) => {
+    setExerciseStatuses((prev) => {
+      const current = prev[lessonId] ? [...prev[lessonId]] : new Array(totalExercises).fill(false);
+      while (current.length < totalExercises) {
+        current.push(false);
+      }
+      current[exerciseIndex] = !current[exerciseIndex];
+      
+      const nextStatuses = {
+        ...prev,
+        [lessonId]: current,
+      };
+
+      // Tự động đồng bộ sang checklist nếu có checklistItems
+      if (checklistItems && checklistItems.length > 0) {
+        const targetIndex = checklistItems.findIndex(item => 
+          /bài tập|luyện tập|tự làm/i.test(item)
+        );
+        if (targetIndex !== -1) {
+          const allCompleted = current.every(Boolean);
+          
+          setChecklists((prevChecklists) => {
+            const currentChecklist = prevChecklists[lessonId] 
+              ? [...prevChecklists[lessonId]] 
+              : new Array(checklistItems.length).fill(false);
+            
+            while (currentChecklist.length < checklistItems.length) {
+              currentChecklist.push(false);
+            }
+            
+            if (currentChecklist[targetIndex] !== allCompleted) {
+              currentChecklist[targetIndex] = allCompleted;
+
+              const checkedCount = currentChecklist.filter(Boolean).length;
+              let newStatus: LessonStatus = "not-started";
+
+              if (checkedCount === checklistItems.length) {
+                newStatus = "completed";
+              } else if (checkedCount > 0) {
+                newStatus = "learning";
+              }
+
+              setLessonStatuses((prevStatuses) => ({
+                ...prevStatuses,
+                [lessonId]: newStatus,
+              }));
+
+              return {
+                ...prevChecklists,
+                [lessonId]: currentChecklist,
+              };
+            }
+            
+            return prevChecklists;
+          });
+        }
+      }
+
+      return nextStatuses;
+    });
+  }, []);
+
   return {
     getLessonStatus,
     updateLessonStatus,
@@ -167,6 +273,10 @@ const useLessonProgressInternal = () => {
     toggleChecklistItem,
     getLessonNote,
     updateLessonNote,
+    getExerciseAnswer,
+    updateExerciseAnswer,
+    getExerciseCompleted,
+    toggleExerciseCompleted,
     totalLessons,
     completedLessonsCount,
     learningLessonsCount,
