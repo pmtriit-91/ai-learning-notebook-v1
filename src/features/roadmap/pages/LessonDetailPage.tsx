@@ -15,8 +15,6 @@ import {
     Chip,
     Divider,
     Grid,
-    useTheme,
-    useMediaQuery,
     Fab,
     Drawer,
     Tooltip,
@@ -40,8 +38,6 @@ export const LessonPage: React.FC = () => {
     const progress = useLessonProgress();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [isNotesOpen, setIsNotesOpen] = React.useState(false);
 
     const { getLessonStatus, updateLessonStatus, getLessonChecklist, toggleChecklistItem } = progress;
@@ -161,8 +157,12 @@ export const LessonPage: React.FC = () => {
                                 variant="caption"
                                 sx={{
                                     fontWeight: 800,
-                                    color: (theme) => theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
-                                    backgroundColor: (theme) => theme.palette.mode === 'light' ? 'rgba(29, 78, 216, 0.08)' : 'rgba(59, 130, 246, 0.15)',
+                                    color: (theme) =>
+                                        theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                                    backgroundColor: (theme) =>
+                                        theme.palette.mode === 'light'
+                                            ? 'rgba(29, 78, 216, 0.08)'
+                                            : 'rgba(59, 130, 246, 0.15)',
                                     px: 1.5,
                                     py: 0.5,
                                     borderRadius: '6px',
@@ -254,7 +254,8 @@ export const LessonPage: React.FC = () => {
                                             color: status === 'completed' ? 'success.contrastText' : 'success.main',
                                             borderColor: 'success.main',
                                             '&:hover': {
-                                                backgroundColor: status === 'completed' ? 'success.dark' : 'rgba(46, 125, 50, 0.08)',
+                                                backgroundColor:
+                                                    status === 'completed' ? 'success.dark' : 'rgba(46, 125, 50, 0.08)',
                                                 borderColor: 'success.dark',
                                             },
                                         }}
@@ -276,7 +277,8 @@ export const LessonPage: React.FC = () => {
                                             color: status === 'learning' ? 'warning.contrastText' : 'warning.main',
                                             borderColor: 'warning.main',
                                             '&:hover': {
-                                                backgroundColor: status === 'learning' ? 'warning.dark' : 'rgba(237, 108, 2, 0.08)',
+                                                backgroundColor:
+                                                    status === 'learning' ? 'warning.dark' : 'rgba(237, 108, 2, 0.08)',
                                                 borderColor: 'warning.dark',
                                             },
                                         }}
@@ -294,11 +296,13 @@ export const LessonPage: React.FC = () => {
                                             fontWeight: 700,
                                             borderRadius: '8px',
                                             py: 1,
-                                            backgroundColor: status === 'not-started' ? 'text.secondary' : 'transparent',
+                                            backgroundColor:
+                                                status === 'not-started' ? 'text.secondary' : 'transparent',
                                             color: status === 'not-started' ? 'background.paper' : 'text.secondary',
                                             borderColor: 'divider',
                                             '&:hover': {
-                                                backgroundColor: status === 'not-started' ? 'text.primary' : 'action.hover',
+                                                backgroundColor:
+                                                    status === 'not-started' ? 'text.primary' : 'action.hover',
                                                 borderColor: 'divider',
                                             },
                                         }}
@@ -485,7 +489,7 @@ export const LessonPage: React.FC = () => {
                             borderRadius: '16px',
                             border: '1px solid',
                             borderColor: 'divider',
-                            mb: 4,
+                            mb: 3,
                             backgroundColor: 'background.paper',
                         }}
                     >
@@ -538,11 +542,22 @@ export const LessonPage: React.FC = () => {
                     {/* References */}
                     {lesson.references && lesson.references.length > 0 && (
                         <Paper
-                            sx={{ p: 3, borderRadius: '16px', border: '1px solid', borderColor: 'divider', backgroundColor: 'background.paper' }}
+                            sx={{
+                                p: 3,
+                                borderRadius: '16px',
+                                border: '1px solid',
+                                borderColor: 'divider',
+                                backgroundColor: 'background.paper',
+                            }}
                         >
                             <Typography
                                 variant="subtitle1"
-                                sx={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'text.primary', mb: 2 }}
+                                sx={{
+                                    fontFamily: 'var(--font-heading)',
+                                    fontWeight: 800,
+                                    color: 'text.primary',
+                                    mb: 2,
+                                }}
                             >
                                 Tài liệu tham khảo
                             </Typography>
@@ -574,23 +589,6 @@ export const LessonPage: React.FC = () => {
                             </Stack>
                         </Paper>
                     )}
-
-                    {/* Lesson Notes (Reflect & Distill) - Chỉ hiển thị trên Desktop ở dạng sticky */}
-                    {!isMobile && (
-                        <Box
-                            sx={{
-                                mt: 4,
-                                position: 'sticky',
-                                top: '96px',
-                                height: 'calc(100vh - 240px)',
-                                maxHeight: 520,
-                                minHeight: 350,
-                                zIndex: 10,
-                            }}
-                        >
-                            <LessonNotesSection key={lesson.id} lessonId={lesson.id} />
-                        </Box>
-                    )}
                 </Grid>
             </Grid>
 
@@ -617,8 +615,11 @@ export const LessonPage: React.FC = () => {
                         }}
                     >
                         <Box sx={{ textAlign: 'left' }}>
-                            <Typography variant="caption" sx={{ display: 'block', color: 'text.secondary', fontWeight: 600 }}>
-                                BÀI TRƯỚC
+                            <Typography
+                                variant="caption"
+                                sx={{ display: 'block', color: 'text.secondary', fontWeight: 600 }}
+                            >
+                                BÀI TRƯỚC: BÀI {prevLesson.lessonNumber.toString().padStart(2, '0')}
                             </Typography>
                             <Typography variant="body2" sx={{ fontWeight: 700, display: { xs: 'none', sm: 'block' } }}>
                                 {prevLesson.title}
@@ -652,7 +653,7 @@ export const LessonPage: React.FC = () => {
                                 variant="caption"
                                 sx={{ display: 'block', color: 'primary.contrastText', opacity: 0.8, fontWeight: 600 }}
                             >
-                                BÀI TIẾP THEO
+                                BÀI TIẾP THEO: BÀI {nextLesson.lessonNumber.toString().padStart(2, '0')}
                             </Typography>
                             <Typography variant="body2" sx={{ fontWeight: 700, display: { xs: 'none', sm: 'block' } }}>
                                 {nextLesson.title}
@@ -664,56 +665,54 @@ export const LessonPage: React.FC = () => {
                 )}
             </Box>
 
-            {/* FAB & Drawer ghi chú cho Mobile/Tablet */}
-            {isMobile && (
-                <>
-                    <Tooltip title="Sổ tay bài học" placement="left">
-                        <Fab
-                            color="primary"
-                            aria-label="open-notes"
-                            onClick={() => setIsNotesOpen(true)}
-                            sx={{
-                                position: 'fixed',
-                                bottom: 24,
-                                right: 24,
-                                zIndex: 1200,
-                                boxShadow: 4,
-                                backgroundColor: 'primary.main',
-                                color: 'primary.contrastText',
-                                '&:hover': {
-                                    backgroundColor: 'primary.dark',
-                                },
-                            }}
-                        >
-                            <EditIcon />
-                        </Fab>
-                    </Tooltip>
-                    <Drawer
-                        anchor="right"
-                        open={isNotesOpen}
-                        onClose={() => setIsNotesOpen(false)}
-                        slotProps={{
-                            paper: {
-                                sx: {
-                                    width: { xs: '100%', sm: 400 },
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: '100%',
-                                    boxSizing: 'border-box',
-                                    backgroundColor: 'background.paper',
-                                }
-                            }
+            {/* FAB & Drawer ghi chú cho mọi kích thước màn hình */}
+            <>
+                <Tooltip title="Sổ tay bài học" placement="left">
+                    <Fab
+                        color="primary"
+                        aria-label="open-notes"
+                        onClick={() => setIsNotesOpen(true)}
+                        sx={{
+                            position: 'fixed',
+                            bottom: 24,
+                            right: 24,
+                            zIndex: 1200,
+                            boxShadow: 4,
+                            backgroundColor: 'primary.main',
+                            color: 'primary.contrastText',
+                            '&:hover': {
+                                backgroundColor: 'primary.dark',
+                            },
                         }}
                     >
-                        <LessonNotesSection
-                            key={lesson.id}
-                            lessonId={lesson.id}
-                            onMobileClose={() => setIsNotesOpen(false)}
-                        />
-                    </Drawer>
-                </>
-            )}
+                        <EditIcon />
+                    </Fab>
+                </Tooltip>
+                <Drawer
+                    anchor="right"
+                    open={isNotesOpen}
+                    onClose={() => setIsNotesOpen(false)}
+                    slotProps={{
+                        paper: {
+                            sx: {
+                                width: { xs: '100%', sm: 500 },
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: '100%',
+                                boxSizing: 'border-box',
+                                backgroundColor: 'background.paper',
+                            },
+                        },
+                    }}
+                >
+                    <LessonNotesSection
+                        key={lesson.id}
+                        lessonId={lesson.id}
+                        onMobileClose={() => setIsNotesOpen(false)}
+                    />
+                </Drawer>
+            </>
         </Box>
     );
 };

@@ -63,20 +63,22 @@ export const Dashboard: React.FC = () => {
     const isLoverCompleted = completedLessonsCount === lessons.length;
     const currentStatus = getLessonStatus(currentLesson.id);
 
-    // Xác định nhãn badge
-    let badgeLabel = 'BÀI HỌC HIỆN TẠI';
+    // Xác định nhãn badge và nút bấm
+    let badgeLabel: string;
+    let buttonLabel: string;
+
     if (isLoverCompleted) {
         badgeLabel = 'LỘ TRÌNH HOÀN THÀNH';
-    } else if (completedLessonsCount === 0 && currentStatus === 'not-started') {
-        badgeLabel = 'BÀI HỌC GỢI Ý ĐẦU TIÊN';
-    }
-
-    // Xác định nhãn nút bấm
-    let buttonLabel = 'Tiếp tục học';
-    if (isLoverCompleted) {
         buttonLabel = 'Xem lại lộ trình';
-    } else if (currentStatus === 'not-started') {
+    } else if (completedLessonsCount === 0 && learningLessonsCount === 0) {
+        badgeLabel = 'BÀI HỌC GỢI Ý ĐẦU TIÊN';
         buttonLabel = 'Bắt đầu học';
+    } else if (currentStatus === 'learning') {
+        badgeLabel = 'BÀI HỌC ĐANG HỌC';
+        buttonLabel = 'Tiếp tục học';
+    } else {
+        badgeLabel = 'BÀI HỌC TIẾP THEO';
+        buttonLabel = 'Học bài tiếp theo';
     }
 
     const handleContinue = () => {
@@ -132,7 +134,12 @@ export const Dashboard: React.FC = () => {
                         >
                             TIẾN ĐỘ LỘ TRÌNH HỌC
                         </Typography>
-                        <ProgressBar value={overallProgress} height={12} />
+                        <ProgressBar
+                            value={overallProgress}
+                            height={12}
+                            completedCount={completedLessonsCount}
+                            totalCount={lessons.length}
+                        />
                     </Paper>
                 </Grid>
 
@@ -312,36 +319,36 @@ export const Dashboard: React.FC = () => {
             {/* Backup & Restore Section */}
             <Paper
                 sx={{
-                    p: 3,
+                    p: 2.5,
                     borderRadius: '16px',
                     border: '1px solid',
                     borderColor: 'divider',
                     boxShadow: 'none',
                     backgroundColor: 'background.paper',
-                    mt: 5,
+                    mt: 4,
                 }}
             >
                 <Grid container spacing={3} sx={{ alignItems: 'center' }}>
-                    <Grid size={{ xs: 12, md: 7 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
-                            <BackupIcon sx={{ color: 'primary.main', fontSize: '1.5rem' }} />
+                    <Grid size={{ xs: 12, md: 8 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, mb: 0.75 }}>
+                            <BackupIcon sx={{ color: 'text.secondary', fontSize: '1.25rem' }} />
                             <Typography
                                 variant="subtitle1"
                                 sx={{
                                     fontFamily: 'var(--font-heading)',
                                     fontWeight: 800,
                                     color: 'text.primary',
-                                    fontSize: '1.1rem',
+                                    fontSize: '1rem',
                                 }}
                             >
                                 Quản lý dữ liệu học tập
                             </Typography>
                         </Box>
-                        <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.5 }}>
+                        <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, display: 'block' }}>
                             Sao lưu toàn bộ tiến độ bài học, checklists và nhật ký của bạn thành file JSON, hoặc khôi phục lại dữ liệu từ tệp tin đã sao lưu trước đó. Tất cả dữ liệu được xử lý offline tại máy của bạn.
                         </Typography>
                     </Grid>
-                    <Grid size={{ xs: 12, md: 5 }} sx={{ display: 'flex', gap: 2, justifyContent: { md: 'flex-end' } }}>
+                    <Grid size={{ xs: 12, md: 4 }} sx={{ display: 'flex', gap: 1.5, justifyContent: { md: 'flex-end' } }}>
                         <Button
                             variant="outlined"
                             onClick={handleExportBackup}
@@ -349,12 +356,12 @@ export const Dashboard: React.FC = () => {
                             sx={{
                                 textTransform: 'none',
                                 fontWeight: 700,
-                                borderRadius: '10px',
+                                borderRadius: '8px',
                                 borderColor: 'divider',
                                 color: 'text.secondary',
-                                px: 2.5,
-                                py: 1.25,
-                                fontSize: '0.9rem',
+                                px: 2,
+                                py: 1,
+                                fontSize: '0.85rem',
                                 '&:hover': {
                                     borderColor: 'primary.main',
                                     backgroundColor: 'action.hover',
@@ -362,28 +369,30 @@ export const Dashboard: React.FC = () => {
                                 },
                             }}
                         >
-                            Sao lưu dữ liệu
+                            Sao lưu
                         </Button>
                         <Button
                             component="label"
-                            variant="contained"
+                            variant="outlined"
                             startIcon={<CloudUploadIcon />}
                             sx={{
                                 textTransform: 'none',
                                 fontWeight: 700,
-                                borderRadius: '10px',
-                                backgroundColor: 'primary.main',
-                                color: 'primary.contrastText',
-                                px: 2.5,
-                                py: 1.25,
-                                fontSize: '0.9rem',
+                                borderRadius: '8px',
+                                borderColor: 'divider',
+                                color: 'text.secondary',
+                                px: 2,
+                                py: 1,
+                                fontSize: '0.85rem',
                                 cursor: 'pointer',
                                 '&:hover': {
-                                    backgroundColor: 'primary.dark',
+                                    borderColor: 'primary.main',
+                                    backgroundColor: 'action.hover',
+                                    color: 'primary.main',
                                 },
                             }}
                         >
-                            Khôi phục dữ liệu
+                            Khôi phục
                             <input
                                 type="file"
                                 accept=".json"

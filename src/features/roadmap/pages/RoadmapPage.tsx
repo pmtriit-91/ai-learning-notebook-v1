@@ -11,6 +11,13 @@ export const Roadmap: React.FC = () => {
     const progress = useLessonProgress();
     const { getLessonStatus, getPhaseProgress, getPhaseCompletedCount } = progress;
 
+    // Tìm bài học tiếp theo cần học để xác định Phase hiện tại
+    const currentLesson =
+        lessons.find((l) => getLessonStatus(l.id) === 'learning') ||
+        lessons.find((l) => getLessonStatus(l.id) === 'not-started') ||
+        lessons[lessons.length - 1];
+    const currentPhaseId = currentLesson?.phaseId;
+
     return (
         <Box>
             {/* Header Page */}
@@ -46,6 +53,7 @@ export const Roadmap: React.FC = () => {
                     const phaseLessons = lessons.filter((l) => phase.lessonIds.includes(l.id));
                     const progressPercent = getPhaseProgress(phase.lessonIds);
                     const completedCount = getPhaseCompletedCount(phase.lessonIds);
+                    const isCurrent = phase.id === currentPhaseId;
 
                     return (
                         <RoadmapCard
@@ -55,6 +63,7 @@ export const Roadmap: React.FC = () => {
                             getLessonStatus={getLessonStatus}
                             progressPercent={progressPercent}
                             completedCount={completedCount}
+                            isCurrent={isCurrent}
                         />
                     );
                 })}

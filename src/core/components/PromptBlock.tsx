@@ -119,7 +119,9 @@ export const PromptBlock: React.FC<PromptBlockProps> = ({ prompt }) => {
                     whiteSpace: 'pre-wrap',
                     wordBreak: 'break-word',
                     margin: 0,
-                    pr: '40px', // Chừa khoảng trống cho nút copy
+                    pr: '48px', // Chừa khoảng trống an toàn cho nút copy
+                    maxHeight: '320px',
+                    overflowY: 'auto',
                 }}
             >
                 <code>{prompt}</code>

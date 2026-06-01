@@ -103,7 +103,7 @@ export const LessonNotesSection: React.FC<LessonNotesSectionProps> = ({ lessonId
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <CheckCircleOutlined sx={{ fontSize: '0.9rem', color: 'success.main' }} />
                                 <Typography variant="caption" sx={{ color: 'success.main', fontWeight: 600 }}>
-                                    {lastSaved ? `Đã lưu ${lastSaved}` : 'Đã tự động lưu'}
+                                    {lastSaved ? `Đã lưu cục bộ lúc ${lastSaved}` : 'Đã lưu cục bộ'}
                                 </Typography>
                             </Box>
                         )}
@@ -128,7 +128,7 @@ export const LessonNotesSection: React.FC<LessonNotesSectionProps> = ({ lessonId
                 Ghi chép lại đúc kết của riêng bạn, dữ liệu sẽ tự động lưu trữ ngoại tuyến tại trình duyệt.
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 120 }}>
+            <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 220 }}>
                 <TextField
                     fullWidth
                     multiline

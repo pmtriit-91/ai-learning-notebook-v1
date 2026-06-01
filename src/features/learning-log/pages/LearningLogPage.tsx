@@ -126,7 +126,7 @@ export const LearningLog: React.FC = () => {
                                 </Typography>
                             </Box>
 
-                            <Stack component="form" onSubmit={handleSubmit} spacing={2.5}>
+                            <Stack component="form" onSubmit={handleSubmit} spacing={2}>
                                 {/* Bài học liên quan */}
                                 <TextField
                                     select
@@ -146,7 +146,7 @@ export const LearningLog: React.FC = () => {
                                 {/* Hôm nay hiểu được gì */}
                                 <TextField
                                     multiline
-                                    rows={3}
+                                    rows={2}
                                     label="Hôm nay hiểu được gì? *"
                                     placeholder="Tóm tắt ngắn gọn kiến thức cốt lõi hôm nay..."
                                     value={whatLearned}
@@ -320,8 +320,7 @@ export const LearningLog: React.FC = () => {
                                             sx={{
                                                 color: 'error.main',
                                                 '&:hover': {
-                                                    backgroundColor: 'error.light',
-                                                    opacity: 0.15,
+                                                    backgroundColor: 'rgba(211, 47, 47, 0.04)',
                                                 },
                                             }}
                                         >

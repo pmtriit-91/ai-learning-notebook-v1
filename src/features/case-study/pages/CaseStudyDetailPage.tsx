@@ -250,90 +250,92 @@ export const CaseStudyDetailPage: React.FC = () => {
 
         {/* Right Column: Lessons Learned & General Info */}
         <Grid size={{ xs: 12, md: 4 }}>
-          <Stack spacing={4}>
-            {/* Lessons Learned Card */}
-            <Paper
-              sx={{
-                p: 3.5,
-                borderRadius: "16px",
-                border: "2px solid",
-                borderColor: "primary.main",
-                background: (theme) =>
-                  theme.palette.mode === "light"
-                    ? "linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)"
-                    : "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
-              }}
-            >
-              <Typography
-                variant="subtitle1"
+          <Box sx={{ position: { md: "sticky" }, top: { md: "96px" }, zIndex: 10 }}>
+            <Stack spacing={4}>
+              {/* Lessons Learned Card */}
+              <Paper
                 sx={{
-                  fontFamily: "var(--font-heading)",
-                  fontWeight: 800,
-                  color: "primary.main",
-                  mb: 2.5,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
+                  p: 3.5,
+                  borderRadius: "16px",
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                  background: (theme) =>
+                    theme.palette.mode === "light"
+                      ? "linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)"
+                      : "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
                 }}
               >
-                <AutoAwesomeIcon />
-                Hiến pháp kỹ thuật (Lessons Learned)
-              </Typography>
-              <Stack spacing={2.5}>
-                {study.lessonLearned.map((lesson, idx) => (
-                  <Box key={idx}>
-                    {idx > 0 && <Divider sx={{ my: 2 }} />}
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontFamily: "var(--font-heading)",
-                        fontWeight: 800,
-                        color: "text.primary",
-                        fontSize: "1rem",
-                        mb: 1,
-                      }}
-                    >
-                      Nguyên lý #{idx + 1}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6, fontWeight: 500 }}>
-                      {lesson}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
-            </Paper>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 800,
+                    color: "primary.main",
+                    mb: 2.5,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <AutoAwesomeIcon />
+                  Hiến pháp kỹ thuật (Lessons Learned)
+                </Typography>
+                <Stack spacing={2.5}>
+                  {study.lessonLearned.map((lesson, idx) => (
+                    <Box key={idx}>
+                      {idx > 0 && <Divider sx={{ my: 2 }} />}
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontFamily: "var(--font-heading)",
+                          fontWeight: 800,
+                          color: "text.primary",
+                          fontSize: "1rem",
+                          mb: 1,
+                        }}
+                      >
+                        Nguyên lý #{idx + 1}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6, fontWeight: 500 }}>
+                        {lesson}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Stack>
+              </Paper>
 
-            {/* Quick Tips */}
-            <Paper
-              sx={{
-                p: 3.5,
-                borderRadius: "16px",
-                border: "1px solid",
-                borderColor: "divider",
-                backgroundColor: "background.paper",
-              }}
-            >
-              <Typography
-                variant="subtitle2"
+              {/* Quick Tips */}
+              <Paper
                 sx={{
-                  fontFamily: "var(--font-heading)",
-                  fontWeight: 800,
-                  color: "text.primary",
-                  mb: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
+                  p: 3.5,
+                  borderRadius: "16px",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  backgroundColor: "background.paper",
                 }}
               >
-                <InfoIcon sx={{ color: "text.secondary" }} />
-                Gợi ý học tập
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>
-                Khi gặp sự cố tương tự, hãy áp dụng quy trình kiểm tra thực tế (QA) sử dụng các nguyên lý trên để cô lập lỗi nhanh nhất, tránh sửa đổi lan man phá vỡ cấu trúc có sẵn của dự án.
-              </Typography>
-            </Paper>
-          </Stack>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 800,
+                    color: "text.primary",
+                    mb: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <InfoIcon sx={{ color: "text.secondary" }} />
+                  Gợi ý học tập
+                </Typography>
+                <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>
+                  Khi gặp sự cố tương tự, hãy áp dụng quy trình kiểm tra thực tế (QA) sử dụng các nguyên lý trên để cô lập lỗi nhanh nhất, tránh sửa đổi lan man phá vỡ cấu trúc có sẵn của dự án.
+                </Typography>
+              </Paper>
+            </Stack>
+          </Box>
         </Grid>
       </Grid>
     </Box>
